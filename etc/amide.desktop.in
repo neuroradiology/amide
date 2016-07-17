@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+_GenericName=Medical Image Examiner
+_Name=Amide
+_Comment=analysis tool for medical images
+Exec=amide
+Icon=amide_logo
+Terminal=false
+Type=Application
+Categories=Graphics;Education;Science;MedicalSoftware;
+
+

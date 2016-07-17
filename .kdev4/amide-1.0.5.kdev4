@@ -1,0 +1,26 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00\x16\x00a\x00m\x00i\x00d\x00e\x00-\x001\x00.\x000\x00.\x005)
+
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=New Application Launcher
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00\x16\x00a\x00m\x00i\x00d\x00e\x00-\x001\x00.\x000\x00.\x005)
+Dependency Action=Build
+EnvironmentGroup=default
+Executable=file:///home/ian/dropboxen/amide/Dropbox/Personal%20versions/amide-1.0.5/src/amide
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=
+Use External Terminal=false
+Working Directory=file:///home/ian/temp/
+isExecutable=true
+
+[MakeBuilder]
+Number Of Jobs=4

@@ -1,0 +1,6 @@
+libecat_interface.o: libecat_interface.c /usr/include/stdc-predef.h \
+ ../amide_config.h
+
+/usr/include/stdc-predef.h:
+
+../amide_config.h:

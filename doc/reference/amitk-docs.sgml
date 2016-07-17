@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY AmitkCanvas SYSTEM "xml/amitk_canvas.xml">
+<!ENTITY AmitkCanvasObject SYSTEM "xml/amitk_canvas_object.xml">
+<!ENTITY AmitkColorTable SYSTEM "xml/amitk_color_table.xml">
+<!ENTITY AmitkColorTableMenu SYSTEM "xml/amitk_color_table_menu.xml">
+<!ENTITY AmitkCommon SYSTEM "xml/amitk_common.xml">
+<!ENTITY AmitkDataSet SYSTEM "xml/amitk_data_set.xml">
+<!ENTITY AmitkFiducialMark SYSTEM "xml/amitk_fiducial_mark.xml">
+<!ENTITY AmitkFilter SYSTEM "xml/amitk_filter.xml">
+<!ENTITY AmitkLineProfile SYSTEM "xml/amitk_line_profile.xml">
+<!ENTITY AmitkObjectDialog SYSTEM "xml/amitk_object_dialog.xml">
+<!ENTITY AmitkObject SYSTEM "xml/amitk_object.xml">
+<!ENTITY AmitkPoint SYSTEM "xml/amitk_point.xml">
+<!ENTITY AmitkPreferences SYSTEM "xml/amitk_preferences.xml">
+<!ENTITY AmitkProgressDialog SYSTEM "xml/amitk_progress_dialog.xml">
+<!ENTITY AmitkRawData SYSTEM "xml/amitk_raw_data.xml">
+<!ENTITY AmitkRoi SYSTEM "xml/amitk_roi.xml">
+<!ENTITY AmitkSpaceEdit SYSTEM "xml/amitk_space_edit.xml">
+<!ENTITY AmitkSpace SYSTEM "xml/amitk_space.xml">
+<!ENTITY AmitkStudy SYSTEM "xml/amitk_study.xml">
+<!ENTITY AmitkThreshold SYSTEM "xml/amitk_threshold.xml">
+<!ENTITY AmitkTreeView SYSTEM "xml/amitk_tree_view.xml">
+<!ENTITY AmitkType SYSTEM "xml/amitk_type.xml">
+<!ENTITY AmitkVolume SYSTEM "xml/amitk_volume.xml">
+<!ENTITY AmitkWindowEdit SYSTEM "xml/amitk_window_edit.xml">
+<!ENTITY version SYSTEM "version.xml">
+<!ENTITY index-Object-Tree SYSTEM "xml/tree_index.sgml">
+<!ENTITY amitk-Theory SYSTEM "theory.sgml">
+]>
+<book id="index">
+  <bookinfo>
+    <title>AMITK Reference Manual</title>
+    <authorgroup>
+      <author>
+         <firstname>Andy</firstname> <surname>Loening</surname>
+         <affiliation>
+             <address>
+                 <email>loening at alum dot mit dot edu</email>
+             </address>
+         </affiliation>
+      </author>
+    </authorgroup>
+    <copyright>
+       <year>2000-2013</year> <holder>Andy Loening</holder>
+    </copyright>
+ 
+    <legalnotice>
+      <para>
+	Permission is granted to copy, distribute and/or modify this
+	document under the terms of the <citetitle>GNU Free
+	Documentation License</citetitle>, Version 1.1 or any later
+	version published by the Free Software Foundation with no
+	Invariant Sections, no Front-Cover Texts, and no Back-Cover
+	Texts. You may obtain a copy of the <citetitle>GNU Free
+	Documentation License</citetitle> from the Free Software
+	Foundation by visiting <ulink type="http"
+	url="http://www.fsf.org">their Web site</ulink> or by writing
+	to:
+
+	<address>
+	  The Free Software Foundation, Inc.,
+	  <street>59 Temple Place</street> - Suite 330,
+	  <city>Boston</city>, <state>MA</state> <postcode>02111-1307</postcode>,
+	  <country>USA</country>
+	</address>
+      </para>
+
+      <para>
+	Many of the names used by companies to distinguish their
+	products and services are claimed as trademarks. Where those
+	names appear in any GNOME documentation, and those trademarks
+	are made aware to the members of the GNOME Documentation
+	Project, the names have been printed in caps or initial caps.
+      </para>
+    </legalnotice>
+
+ </bookinfo>
+
+  <part id="amitk_intro">
+    <title>AMITK+ Overview</title>
+    <partintro>
+    <para>
+AMITK is an extension of the GTK library designed for handling objects
+of a medical imaging nature.  AMITK is released under the GNU 
+General Public License (GNU GPL).  AMITK has a C-based object-oriented
+architecture that allows for maximum flexibility and the creation of
+bindings for other languages.
+    </para>
+   </partintro>
+     &amitk-Theory;
+  </part>
+
+
+  <part  id="amitk_base">
+    <title>AMITK Core Objects</title>
+        &AmitkColorTable;
+        &AmitkCommon;
+        &AmitkFilter;
+        &AmitkLineProfile;
+        &AmitkObject;
+        &AmitkPreferences;
+        &AmitkPoint;
+        &AmitkRawData;
+        &AmitkSpace;
+        &AmitkType;
+        &AmitkVolume;
+  </part>
+
+  <part id="amitk_objects">
+    <title>AMITK Objects</title>
+    <chapter>
+      <title>AMITK Object Hierarchy</title>
+    &index-Object-Tree;
+    </chapter>
+
+    <chapter id="SpaceObjects">
+      <title>Medical Image Objects</title>
+        &AmitkDataSet;
+        &AmitkFiducialMark;
+        &AmitkRoi;
+        &AmitkStudy;
+    </chapter>
+
+    <chapter id="AmitkWidgets">
+      <title>Amitk Widgets</title>
+        &AmitkCanvas;
+        &AmitkCanvasObject;
+        &AmitkColorTableMenu;
+        &AmitkObjectDialog;
+        &AmitkProgressDialog;
+        &AmitkSpaceEdit;
+        &AmitkThreshold;
+        &AmitkTreeView;
+        &AmitkWindowEdit;
+    </chapter>
+
+  </part>
+
+</book>

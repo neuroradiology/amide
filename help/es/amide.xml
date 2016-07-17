@@ -1,0 +1,1304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY app "AMIDE">
+<!ENTITY date "Feb 2013">
+<!ENTITY appversion "1.0.5">
+<!ENTITY manrevision "0.3.1">
+<!ENTITY legal SYSTEM "legal.xml">
+]>
+<article id="index" lang="es">
+  <articleinfo>
+    <title>The <application>AMIDE</application> User's Manual V0.3.1</title>
+    
+    <abstract role="description">
+      <para>AMIDE (Amide's a Medical Image Data Examiner). Este programa es una herramienta para ver y analizar datos multidimensionales médicos , y ha sido diseñado en el terreno de la imagen multimodalidad.</para>
+    </abstract>
+
+    <copyright><year>2000-2014</year> <holder>Andy Loening</holder></copyright><copyright><year>2002</year><holder>Pablo Sau (psau@cadpet.es)</holder></copyright>
+    <!--- translators should put additional copyright entries -->
+
+    <authorgroup>
+      <author role="maintainer"> <!-- not everybody needs maintainer -->
+	<firstname>Andy</firstname> <surname>Loening</surname>
+	<affiliation>
+	  <!-- <orgname> </orgname> -->
+	  <address>
+	    <email>loening at alum dot mit dot edu</email>
+	  </address>
+	</affiliation>
+      </author>
+
+      <othercredit role="translator">
+        <firstname>Pablo</firstname>
+        <surname>Sau</surname>
+        <affiliation>
+          <orgname>CDMEDICS PACS WEB (http://cdmedicpacsweb.sourceforge.net)</orgname>
+          <address> 
+            <email>pablosau at users dot sourceforge dot net</email> 
+          </address>
+        </affiliation>
+        <contrib>Spanish translation</contrib>
+      </othercredit>
+    </authorgroup>
+
+    <releaseinfo>
+      This is release 0.3.1 of the AMIDE User's Manual.
+    </releaseinfo>
+
+    <revhistory>
+      <revision>
+	<revnumber>AMIDE Manual V0.3</revnumber>
+	<date>2003-06-09</date>
+	<revdescription>
+	  <para role="author">Andy Loening</para>
+	</revdescription>
+      </revision>
+    </revhistory>
+    
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="legal.xml"/>
+
+  </articleinfo>
+
+  <indexterm>
+    <primary>AMIDE</primary>
+  </indexterm>
+
+
+
+
+<!-- ###################################### -->
+<sect1 id="introduction">
+  <title>Introducción</title>
+
+<sect2><title>Licensing</title>
+
+  <para>AMIDE se ha liberado bajo los términos de <ulink type="http" url="http://www.gnu.org/copyleft/gpl.html">GNU General Public Library (GPL).</ulink></para>
+
+  <para>El texto de la licencia es el siguiente:</para>
+
+  <orderedlist>
+   <listitem>
+    <para>Usted es libre de usar este programa para cualquier propósito. Por favor note que, aunque la GPL no hace restricciónes sobre el uso del programa, su gobierno probablablemte sí. Por ejemplo, en Estados Unidos, AMIDE no está aprovado por la FDA y no puede darse uso clínico allí .</para>
+   </listitem>
+   <listitem>
+    <para>Usted es libre de estudiar el código fuente y adaptarlo a sus necesidades.</para>
+   </listitem>
+   <listitem>
+    <para>Usted es libre de redistribuir el programa.</para>
+   </listitem>
+   <listitem>
+    <para>Usted es libre de sacar versiones modificadas del programa, siempre que también redistribuya el código fuente del programa modificado, y etiquete apropiadamente la versión como modificada.</para>
+   </listitem>
+  </orderedlist> 
+
+
+
+
+</sect2>
+
+<sect2><title>Disponibilidad del Código Fuente</title>
+
+  <para>El Código Fuente de AMIDE está disponble en <ulink type="http" url="http://amide.sourceforge.net">el sitio web de AMIDE</ulink>.</para>
+
+</sect2>
+
+
+<sect2><title>Platformas soportadas</title>
+
+  <para>Además del Código Fuente, las versiones binarias de AMIDE junto con instruciones de instalacion se pueden encontar <ulink type="http" url="http://amide.sourceforge.net">en el sitio web de AMIDE web</ulink>. Los sistemas soportados actualmente son Linux/i386, Microsoft Windows, y Macintosh OS X (logrado mediante el uso del paquete complementario <ulink type="http" url="http://fink.sourceforge.net">fink</ulink>).</para>
+
+</sect2>
+
+  
+<sect2><title>Información de Contacto</title>
+
+    <para>Pueden dirigir sus preguntas a lista de usuarios AMIDE <email> amide-users@lists.sourceforge.net </email>. La informacion para unirse a la lista y/o ver mensajes archivados se puede encontrar <ulink type="http" url="http://sourceforge.net/mail/?group_id=9464">aquí</ulink>.</para> 
+
+</sect2>
+</sect1>
+
+<!-- ###################################### -->
+<sect1 id="basics">
+  <title>Fundamentos del Amide</title>
+
+  <para>Com el uso de AMIDE es completamente intuitivo sólo para el escribió el programa (es decir yo), este sección proporcióna una breve panorámica de del uso del programa. se asume que tiene estudios cargados. Para ver lasinstruciones para cargar estudios en el AMIDE referirse a <xref linkend="importing_data_sets"/>.</para>
+  
+
+
+
+
+  <sect2><title>Teoría Rápida de Operaciones</title>
+
+   <sect3><title>Objetos AMIDE</title>
+
+    <para>AMIDE pude trabajar y visualizar multiplicidad de objetos simultáneamente (limitado sólo por la RAM disponible). Los tipos de objetos actualmente implementados en AMIDE son los siguientes: <variablelist>
+ 
+      <varlistentry><term>Volumen de Datos</term>
+      <listitem>
+       <para>Un volumen de datos contiene la información cruda de un estudio de imagen médica, junto con los parámetros necesarios para su correcta interpretación con esa información (umbrales, mapas de color, etc.).</para>
+      </listitem>
+      </varlistentry>
+
+      <varlistentry><term>ROI</term>
+      <listitem>
+       <para>Región de Interés(Region Of Interest,ROI), este objeto define un subvolumen del volumen de datos sobre el cual pueden calcularse estadísticas. Todos los ROI's en AMIDE son volumétricos. Actualmente, AMIDE implementa las siguieintes geometrías en los ROI: elipsoide, cilídrico, rectangular, and isocontornos.</para>
+      </listitem>
+      </varlistentry>
+
+      <varlistentry><term>Marcador Fiducial</term>
+      <listitem>
+       <para>Es un objeto muy simple , los Marcadores Fiduciales sólo tiene la información sobre la referencia a un punto del espacio, y son usadas para el alíneamiento de cuerpos rigidos.</para>
+      </listitem>
+      </varlistentry>
+
+      <varlistentry><term>Estudio</term>
+      <listitem>
+       <para>Cada sesión de AMIDE tiene un simple objeto de estudio, que se usa para agrupar un número de volúmenes de datos, ROI's, y marcas fiduciales.</para>
+      </listitem>
+      </varlistentry>
+
+     </variablelist></para>
+   </sect3>
+
+   <sect3><title>Objeto Arbol</title> 
+
+
+   <figure id="studytree-fig">
+    <title>Arbol de Estudio</title>
+    <screenshot>
+     <mediaobject>
+      <imageobject>
+       <imagedata fileref="figures/study_tree.png" format="PNG"/>
+      </imageobject>
+      <textobject>
+       <phrase>Un ejemplo de árbol de estudio en AMIDE. Los dos volúmenes de datos (FDG PET y microCT) y 1 ROI (vegiga) son hijos del objeto estudio (m2862). Los ROI's restantes son hijos del volumen de datos.</phrase>
+      </textobject>
+     </mediaobject>
+    </screenshot>
+   </figure>
+
+
+
+    <para>Para facilitar el trabajo con un gran número de objetos simultáneamente, AMIDE conceptualmente agrupa todos objetos en una jerarquía de árbol, con el object estudio como raiz del árbol (ver <xref linkend="studytree-fig"/>). Los objetos de volúmenes de datos serán ramas principales del objeto estudio, mientras que los ROI's pueden ser ramas del objeto estudio o de los objetos de volúmenes de datos. Por qué es esto importante. Porque la estructura del árbol determina como los movimientos son seguidos por el programa. Si un volumen de datos es movido con respecto al resto del estudio, los ROI's que son ramas de ese volumen de datos son movidos acordemente con aquel, así se mantendrá la correcta orientación y posión con respecto al volumen de datos padre.</para>
+   </sect3>
+
+   <sect3><title>Unidades del mundo real</title>
+
+    <para>Es importante darse cuenta trabajando con AMIDE que el programa intentará abstraer el formato de sobreimpresión digital tanto como sea posible. Cuando eschucha un CD de audio, el reproductor convierte automáticamente una serie de ceros y unos codificdos en el disco en formato digital, y así usted no tiene que preocuparse del formato digital subyaccente. De manera similar, AMIDE presenta los datos digitales de forma analógica. Siempre que sea posible las unidades empleadas son unidades del mundo real (mm, seg..), y al mayoría de operaciones no estan limitadas por la la naturaleza discreta de los datos subyaccentes. Por ejemplo, los datos son vistos en término de "cortes" y no de planos fijos de imágenes. Estos cortes pueden extraerse del volumen de datos en cualquier ángulo, y con cualquier grosor (no sólo limitado a múltiplos del tamaño del voxel). Usted pude estar acostumbrado a mirar las imágenes médicas en términos de de vóxeles y de enteros, pero recuerde que el sujeto escaneado es parte del mundo real, y AMIDE intentará recrear esta "señal analógica" para usted.</para>
+
+    <para>El único sitio donde la abstracció empieza a romperse y cuando se trabaja con volúmenes de datos dinámicos. Einstein entendió que el tiempo es una "dimensión" especial, y AMIDE está de acuerdo. La razón de esto es que intentando representar datos dinámicos pero en segmentos de tiempo separados resulta complejo desde el punto de vista computacional, primeramente por que los datos dinánicos no suelen estar igualmente espaciados. Mientras que moverse en el espacio 1 voxel en las direciones x, y o z siempre equivale a una unidad constante de medida (por ejemplo 0.4 mm) en la dirección apropiada, mover un voxel en la dirección t puede ser de 30 segundos o de 30 minutos, dependiendo que segmento de tiempo este mirando. Por esto, AMIDE trabaja con el tiempo en términos de segmentos (frames), aunque AMIDE siempre nos dirá el tiempo al que corresponede cada segmento.</para>
+
+   </sect3>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+  <sect2><title>Componentes del Display</title>
+
+   <figure id="mainwindow-fig">
+    <title>Ventana Principal de AMIDE</title>
+    <screenshot>
+     <mediaobject>
+      <imageobject>
+       <imagedata fileref="figures/amide_main_window.png" format="PNG"/>
+      </imageobject>
+      <textobject>
+       <phrase>Diagrama señalando lo más destacable de la ventana principal</phrase>
+      </textobject>
+     </mediaobject>
+    </screenshot>
+   </figure>
+
+
+   <sect3><title>Ayuda Sensible al Contexto</title>
+
+      <para>Localizada en la esquina inferior izquierda de la ventana, la ayuda sensible al contexto mostrará que lo que sucederá al apretar los diferentes botones del ratón o las combinaciones de teclas. Los botones estan marcados a la manera UNIX, correspondiendo el 1, 2 y 3 a izquierdo, medio y derecho respectivamente. En los ratones con sólo dos botones, el del medio es emulado apretando los dos botones a la vez.</para>
+
+   </sect3>
+
+
+
+   <sect3><title>Vista del Arbol de Datos del Estudio</title>
+
+    <para>Localizado en la parte izquierda de la ventana esta una árbol que lista todos los objetos del estudio. La estructura de árbol muestra como los movimientos serán propagados a los objetos del estudio. Por ejemplo si un volumen de datos es rotado, todos sus objetos hijos serán rotados acordemente.</para>
+
+    <para>Objetos del árbol pueden ser selecionados con pulsación en el botón 1, en el nombre del objeto. Click en el 2 "activa" el objeto. El "volumen activo de datos" aparecerá remarcado, y cuando se una selecciona una función (por ejemplo un filtro), esta será aplicada sólo al "volumen activo de datos".</para>
+
+    <para>Al diálogo de modificación de objetos se pude acceder con el botón 3, haciendo pulsación sobre el objeto, correspondiente. Los ROI's se pueden añadir haciendo pulsación con el botón 1 en un área desnuda del árbol, o con MAYUSCULAS+botón 3 en un objeto. . Estas funciónes se describen con mayor detalle en <xref linkend="data_sets"/> and <xref linkend="rois"/>.</para>
+   </sect3>
+    
+
+   <sect3><title>Vistas Ortogonales</title>
+    
+    <para>La mayoría de la ventana principal corresponde a vistas ortogonales del los volúmenes de datos a visualizar. Los datos usualmente se presentan como tres vistas ortogonales, pero el usuario pude decidir usar menos, usando le selector de vistas (descrito abajo en <xref linkend="view_selector"/>). Las tres vistas mostradas son los planos axial , coronal, and sagital. Nótese que las vistas pueden aparecer incorrectamente marcadas. esto puede ocurrir si si el fichero importado no esta en el orden que AMIDE espera. Podría ser por que usa una terminología diferente de orientación al la del programa (por ejemplo la sección coronal del cerebro de una rata no es la misma orientación coronal de la rata).</para>
+
+
+    <para>Bajo las vistas hay barras desplazables para cambiar el lugar de donde las vistas son tomadas. La localización también puede cambiarse haciendo pulsación directamente sobre imagen de la vista. Las pulsacións de ratón apropiadas son:</para>
+
+
+   <variablelist> 
+
+    <varlistentry><term>Boton 1 del ratón</term>
+     <listitem>
+      <para>Cambia localización de los cortes sin cambiar su grosor.</para>
+    </listitem>
+    </varlistentry>
+
+    <varlistentry><term>Boton 2 del ratón</term>
+    <listitem>
+     <para>Cambia la localización de los cortes, poniendo el grosor de los cortes a un mínimo razónable.</para>
+    </listitem>
+    </varlistentry>
+
+    <varlistentry><term>Boton 3 del ratón</term>
+    <listitem>
+     <para>Haciendo pulsación y arrastrando sin soltar cambia el grosor de los cortes sin cambiar su localización. El grosor de los cortes también puede alterarse con el botón rotatorio de ajuste de grosor de corte (ver <xref linkend="slice_thickness_setting"/>).</para>
+    </listitem>
+    </varlistentry>
+
+  
+    <varlistentry><term>Otras</term>
+    <listitem>
+     <para>Funcionalidades Adicionales de los botones del ratón se explican en <xref linkend="data_sets"/> y <xref linkend="rois"/>.</para>
+    </listitem>
+    </varlistentry>
+
+   </variablelist>
+
+   </sect3>
+
+   
+   <sect3 id="view_selector"><title>Selector de Vistas</title>
+    
+    <para>Cual de las tres vistas ortogonales se puden selecionar usndo esos botones. Por defecto las tres son mostradas.</para>
+
+   </sect3>
+
+
+   <sect3><title>Visión Sincronizada</title>
+    
+    <para>Además de esas tres vistas, AMIDE pude mostrar múltiples conjuntos de vistas ortogonales, todos mirando al mismo punto ("sincronizado") del espacio 3D. Esto se usa más a menudo para ver la fusión de dos volúmenes de datos, con un grupo de vistas del primer volumen, y el siguiente usado para el segundo, y el tercero para la fusión de los dos volúmenes.</para>
+
+   </sect3>
+
+
+   <sect3 id="threshold_dialog"><title>Herramienta de Cambio de Umbral</title>
+    
+    <para>Este botón en la barra de herramientas lanza el selector de mapas de color del volumen de datos activo. En el diálogo, los niveles máximos y mínimos de umbral pueden cambiarse directamente escribiendo los valores (en unidades absolutas o porcentage) , o usando las barras de desplazamiento en la brara de color. La escala de color se puede cambiar usando el correspondiente menú desplegable. Un histograma normalizado da una idea de la distribución de los valores del volumen de datos. Finalmente el tipo de umbral se puede cambiar. El tipo de umbral determina como los valores de umbral mínimos y máximos se aplican al conjunto de datos, y son:</para>
+
+	<variablelist> 
+
+		<varlistentry><term>Por Corte</term>
+		<listitem><para>Los valores mínimos y máximos se aplicarán en proporción al corte selecionado.</para></listitem>
+		</varlistentry>
+
+		<varlistentry><term>Por Marco</term>
+		<listitem><para>Los valores mínimos y máximos se aplicarán en proporción al segmento de tiempo selecionado.</para></listitem>
+		</varlistentry>
+
+		<varlistentry><term>Interpolación entre Segmentos de Tiempo</term>
+		<listitem><para>Este umbral sólo tiene sentido para estudios dinámicos. En este modo dos pares de valores máximos y mínimos son selecionados para cada segmento de tiempo. Para cada segmento anterior e incluyendo el primer segmento seleccionado se usa el primer par de valores. Para el segmento segundo y subsiguientes se aplica el segundo par de valores. Para los segmentos incluidos entre el primer y segundo segmentos seleccionados los valores máximos y mínimos son interpolados como función del tiempo entre los dos pares de valores establecidos.</para></listitem>
+		</varlistentry>
+
+		<varlistentry><term>Global</term>
+		<listitem><para>Los valores mínimo y máximos serán aplicados en proporción al los valores mínimos y máximos del conjunto total de datos.</para></listitem>
+		</varlistentry>
+
+	</variablelist>
+
+    <para> If the data set's modality is set to CT, buttons will be
+    shown for applying bone and soft tissue windows as the thresholds.
+    </para>
+
+   </sect3>
+
+
+
+   <sect3><title>Selector de Zoom</title>
+    
+    <para>Este especifica cuanto se magnificarán las vistas. AMIDE intenta hacer una educada adivinanza de cuan grande han de ser las imágenes usando la dimensión más pequeña con los vóxeles más grandes correspondiendo al pixel representado. El zoom se pude utilizar en adicció a esto.</para>
+
+   </sect3>
+
+
+
+   <sect3 id="slice_thickness_setting"><title>Ajuste del Grosor de Corte</title>
+    
+    <para>El grosor especifica cómo de profundas han de ser la vistas representadas. El grosor de corte mínimo viene determinado por la dimensión del voxel más pequeño del conjunto de datos.</para>
+
+   </sect3>
+
+
+
+   <sect3 id="frame-dialog"><title>Selector de Segmentos de Tiempo(Frames)</title>
+    
+    <para>Este botón abre un diálogo para seleccionar el segmento a mostrar de un conjunto de datos dinámicos. Un segmento (p.e. periodo de tiempo) para mostrar puede ser seleccionado haciendo pulsación en una lista de elementos. Múltiples segmentos puden ser seleccionados a la vez con pulsación y simultáneamente apretando la tecla MAYUSC para seleccionar segmentos adicionales. Nótese que por cada conjunto de datos seleccionados al menos un segmento será visulaizado. Si elige un periodo de tiempo que no incluye un segmento de tiempo de ese conjunto de datos, el segmento más aproximado será elegido.</para>
+
+   </sect3>
+
+
+   <sect3 id="gate-dialog"><title>Gate Selector</title>
+    
+    <para>This button pops up a dialog for picking which gates of data
+    to show from a gated data set. A gate to display can be selected
+    by clicking on a list element.  Multiple gates can be selected by
+    holding down the shift key and selecting additional frames.  Note
+    that by using the entries, a span of gates can be choosen that
+    loops around (e.g. gates 8, 0, and 1).</para>
+
+   </sect3>
+
+
+   <sect3><title>Selector de Puntero(Target)</title>
+    
+    <para>El puntero en forma de cruz generalmente sólo resulta visible cuando apretamos un botón del ratón. Con este botón la cruz permanece siempre visible.</para>
+
+   </sect3>
+
+
+   <sect3 id="interpolation"><title>Interpolación</title>
+    
+    <para>Interpolación se refiere al método con el que AMIDE extrae datos del conjunto de datos de imagen médica original para ser representados en pantalla. El botón que seleciona la interpolación permite al usuario especificar que tipo de interpolación usar para generar cortes del volumen activo de datos. "Nearest neighbor" es el más rápido, pero tri-línear produce imágenes de mejor aspecto, con la penalización de que es casi 8 veces más lento.</para>
+   </sect3>
+
+   <sect3 id="slab_rendering"><title>Rendering</title>
+
+    <para>Three rendering methods are available, MPR (multiplanar
+    reformation), MIP (maximum intensity projection), and MINIP
+    (minimum intensity projection). These rendering algorithms are
+    utilized to combine data in the depth direction of the slice
+    and/or over multiple frames of data. As such, the effects are most
+    noticeable when the view thickness of the slices is increased
+    and/or several frames of data are being combined. For MPR, each
+    displayed pixel corresponds to the weighted average of the
+    underlying data. For MIP and MINIP, each displayed pixel
+    corresponds to the maximum or minimum value of the underlying data,
+    respectively.
+    </para>
+
+   </sect3>
+
+
+   <sect3><title>Selector Fusión/Sobreimpresión</title>
+    
+    <para>Por defecto AMIDE muestra múltiples volúmens de datos como imágenes fusionadas. Con el selector fusión/sobrimpresión(fused/overlay) usted elige si quiere mejor los volúmenes sobreimpresiónados mejor que fusionados.</para>
+
+   </sect3>
+
+  <sect3 id="preferences-dialog"><title>Diálogo de Preferences</title>
+    <para>Debajo del menú de Edición esta el de preferencias. Este desplegará un menú de como las cosas deben de ser mostradas por AMIDE. Las preferencias se guardaran in un fichero de configuración para su futuro uso en AMIDE.</para>
+
+    <variablelist>
+
+    <varlistentry><term>Preferencias de Dibujo de ROI</term> 
+     <listitem><para>El grosor de la línea para dibujar ROIs pude ser cambiado aquí. El grosor oscila entre 1 y 5 pixel.</para></listitem>
+    </varlistentry>
+
+    <varlistentry><term>Preferences de la Disposión de las Vistas</term> 
+     <listitem><para>La primera opción le permite usar tres vistas (axial, coronal y sagital) con un estilo lineal usualmente usado por los software de PET, y un estilo ortogonal usado por el software de RNM. La segunda opción le permite fijar si el tamaño de la vista ha de permenecer constante o no. Si no esta activada, el tamaño de las vistas mostradas dependerá sólo de los volúmenes seleccionados. Si esta activada, el tamaño del las vistas dependerá de todos volúmenes del estudio. La opción final es para ajustar el tamaño del área vacía en medio del puntero (la cruz mostrada cunado se cambia la localización de la vista)</para></listitem>
+    </varlistentry>
+
+    <varlistentry><term>Preferencias de las Tablas de Color</term>
+      <listitem> <para>El programa usa por defecto la Tabla de Color del conjunto de datos más recientemente importado.</para></listitem>
+    </varlistentry>
+    
+    <varlistentry><term>Misc. Preferencias.</term>
+      <listitem> 
+
+       <para> The "Send Warning Messages to Console" option does
+       exactly that.  This is useful if enough warning messages are
+       popping up that they're becoming annoying. </para>
+
+       <para>Con la opción "Don't prompt for 'save changes' on exit" No notificación para guardar los cambios al salir, evitará que AMIDE le notifique al salir del programa si quiere gurdar los cambios.</para>
+
+       <para> The "Which Default Directory" controls which directory
+       the file chooser dialog (used for save/import/open operations)
+       will use as it's default location. "None" will cause the file
+       chooser to show a list of recent locations as
+       default. "Specified Directory" will cause the file chooser to
+       utilize the directory specified as the default
+       directory. "Working Directory" will utilize the directory from
+       which the AMIDE program was executed as the default directory -
+       this is most useful if you're often envoking AMIDE from the
+       command line.
+       </para>
+
+     </listitem>
+    </varlistentry>
+
+    </variablelist>
+
+  </sect3>
+
+
+</sect2>
+
+</sect1>
+
+<!-- ###################################### -->
+<sect1 id="file_handling">
+  <title>Importando Datos y Guardando Estudios</title>
+
+
+<sect2 id="importing_data_sets"><title>Importación de Conjuntos de Datos</title>
+
+ <para>AMIDE usa propio formato (descrito abajo: <xref linkend="xif-files"/>) para guardar datos entre sesiones. Para cargar datos al AMIDE, es necesario importarlos (localizado bajo el menú "File" ). Puede optar entre que AMIDE adivine el formato ( funciona para la mayoría de los tipos) o decir a AMIDE explícitamente que formato de fichero debe importar. Importando todos los tipos de datos excepto datos crudos(raw) se hace a través de la librería de conversión medica de Erik Nolf's <ulink type="http" url="http://xmedcon.sourceforge.net">(X)medcon</ulink>.</para>
+
+  <sect3><title>Ficheros de datos crudos (raw data)</title>
+
+    <para>AMIDE intentará cargar cualquier fichero que tenga el sufijo ".dat" or ".raw" como fichero de datos crudos. Al usuario se le pedirán las dimensiones , los bits que existen desde el pricipio del fichero hasta los datos, y el tipo y formato de datos. Ficheros en big endian, little endian, y PDP pueden ser cargados (endian se refiere al orden en que los bits son dispuestos en la memoria).</para>
+
+    <para>Los siguientes formatos de datos son soportados: enteros con o sin signo de 8 bit , 16 , enteros con o sin signo de 32 bit , coma flotante de 32 bit IEEE , coma flotante de 64 bit IEEE , y datos ASCII .</para>
+
+  </sect3>
+
+  <sect3><title>ECAT Files</title>
+
+   <para>Ficheros ECAT 6.4 y 7.2 , tanto estáticos como dinámicos se soportan a través de (X)MedCon. AMIDE intentará cargar cualquier fichero que tenga el sufijo ".img" como el ECAT 6.4, y cualquier fichero con sufijo ".v" como el ECAT 7. Por favor nótese que los ficheros ECAT 6.4 son muy difíciles de autodetectar , así si el fichero no acaba en .img tendrá que comunicar explícitamente a AMIDE para que importe el fichero como ECAT 6.4.</para>
+
+  <para>Aunque no se compila por defecto, AMIDE se puede configurar para usar la librería z_matrix_7/libecat para el manejo de ficheros ECAT en vez de (X)MedCon.</para>
+
+ </sect3>
+
+
+ <sect3><title>Ficheros DICOM</title>
+  
+  <para>DICOM 3.0 se soporta con (X)MedCon, el cual tiene una librería ligeramente modificada de Tony Voet's VT-DICOM . El nivel de soporte de DICOM 3.0 viene enteramente determinado por (X)MedCon/VT-DICOM.</para>
+
+  <para>Los datos DICOM normalmente aparecen distribuidos en un grupo de ficheros. Para que los lea AMIDE como un conjunto único de datos, necesitará agrupar esos ficheros en un único fichero de todo el volumen. Notas de cómo hacer esto se encuentran en <ulink type="http" url="http://xmedcon.sourceforge.net/faq/stack.html">el website de (X)medcon. </ulink>.</para>
+  
+ </sect3>
+
+
+ <sect3><title>Concorde microPET files</title>
+  
+  <para>Los ficheros Concorde son generados por los tomógrafos de microPET de la compañía Concorde. Es un formato con dos ficheros (uno de datos y otro de encabezamiento), con el de encabezamiento fácilmente leíble en ASCII. Usted tendrá que decir al AMIDE que abra el fichero de encabezamiento (.img.hdr), no el fichero de datos (.img).</para>
+
+ </sect3>
+
+ <sect3><title>Acr/Nema 2.0, Analyze (SPM), InterFile3.3, Gif87a/89a</title>
+
+  <para>Una variedad de formatos adicionales pueden ser soportados a través de (X)MedCon, incluyendo: Acr/Nema 2.0, Analyze (SPM), InterFile3.3, y Gif87a/89a. Para mas información , por favor refiérase a la documentación de (X)MedCon <ulink type="http" url="http://xmedcon.sourceforge.net">sitio web (http://xmedcon.sf.net)</ulink>.</para>
+  
+  
+ </sect3>
+  
+
+</sect2>
+
+
+<sect2 id="xif-files"><title>Ficheros XIF</title>
+
+ <para> AMIDE saves studies in an extensible XML based format called
+  XIF (Xml Image Format).  This format can be stored as either a
+  single file (flat file format XIF) or as a XIF directory.  The flat
+  file format is the default, and simplifies file moving and handling.</para>
+
+  <para> The directory format on the other hand allows easy access to the raw
+  study data external to the AMIDE program, and will be of interest to
+  developers.  The directory format can be utilized via the "Save as
+  XIF Directory" and "Open XIF Directory" menu items under the File
+  menu. </para>
+
+ <para>En cualquier caso los ficheros o directorios tendrán el sufijo ".xif", y serán tratados idénticamente por el programa AMIDE .</para>
+
+ <sect3><title>Abriendo Estudios</title>
+  
+  <para>De la ventana principal, selecciónar "File-&gt;Open", y se abrirá un diálogo de selección. Seleccione un nombre de fichero XIF en la columna de la derecha, y pulse el boton "OK" (o haga click doble en el nombre del fichero).</para>
+
+ </sect3>
+
+ <sect3><title>Guardando Estudios</title>
+
+  <para>Para guardar un estudio, de la ventana de selección de estudios "File-&gt;Save As" y un diálogo de selcción de ficheros aparecerá. Mire la línea "selection:" cerca del pie de la ventana, si este es el fichero XIF deseado , pulse "OK" y el fichero sera guradado. Si no fuera el fichero XIF deseado , seleccione o entre el nombre correcto de estudio XIF, y pulse el boton "OK" .</para>
+
+  <para>Note que los ficheros de datos originales ya no son necesraios para AMIDE, ya que toda la información que AMIDE necesita esta guardada en el fichero .XIF . De todas las maneras debería guardar los ficheros originales, ya que AMIDE solamente lee la información que necesita del encabezamiento.</para>
+
+ </sect3>
+
+
+ <sect3><title>Formato XIF en Directorio</title>
+
+  <para>Aunque desde le punto de vista de tranferecia es bastante engorroso, usando la estructura de directorio para guardarlos tiene la ventaja decisiva de hacer la información mas fácilmente accessible usando linea de comandos y herramientas estandar de texto.</para>
+
+  <para>Cada directorio XIF contiene un fichero llamado "study_*.xml" el cual guarda los paramnetros básicos del estudio. Ficheros adicionales se encuentran en el directorio XIF como los ficheros ROI_*.xml que guardan ROI's, y data-set_*.xml con sus correspondientes conjuntos de datos, data-set_*_raw-data files, que contienen los parámetros de imagen y los datos crudos respectivamente. El fichero crudo (raw) (double/float/int, 64/32/16/8 bit, little or big endian, por plano/por segmento de tiempo(frame)/factor simple de escala), y está determinado por el formato original de los datos.</para>
+ </sect3>
+
+ <sect3><title>Formato Plano XIF</title>
+
+  <para> The flat file format is basically a concatenation of the
+  information enclosed within the directory format.  It is not meant
+  to be editable or developer friendly.  Instead, it allows easy
+  management of studies for casual users.  If you wish to access the
+  information in a XIF flat file external to AMIDE, you'll be much
+  better off resaving the data as in XIF directory format.</para>
+
+  <para>El formato es el siguiente: Los primeros 64 bits contienen una cadena mágica de identificación del formato. Los siguientes 16 bits contienen 2 enteros de 64 bit little endian, el primero siendo la localización del estudio xml en el fichero, y el segundo correspondiendo al tamaño de los datos xml. Dentro de los datos xml esta incluída la información de donde se hallan ubicados los hijos de los datos xml, y dentro de los datos xml de los hijos se encuentra la localización de los datos de los subhijos.</para>
+
+ </sect3>
+
+</sect2>
+
+
+
+<sect2><title>Exportando una Vista a JPEG</title>
+
+  <para>Para exportar una de las vistas (transversa/coronal/sagital) a un fichero externo de imagen, seleccione "File-&gt;Export View-&gt;[view]" desde el menú. . La vista será guardada como jpeg.</para>
+
+</sect2>
+</sect1>
+
+
+
+
+
+<!-- ###################################### -->
+<sect1 id="data_sets">
+  <title>Manipulando Conjunto de Datos Médicos</title>
+
+<para>Despues de ser cargados los datos médicos pueden ser manipulados de varias maneras en AMIDE. Es importante recordar que AMIDE trabaja con volúmenes de datos 3D y 4D. Mientras que los cortes 2D son representados en la pantalla del ordenador , AMIDE maneja siempre datos tridimensionales.</para>
+
+
+
+
+<sect2><title>Manipulando Volúmenes en la Pantalla</title>
+
+  <sect3><title>Viendo Volúmenes</title>
+
+  <para>Cuando inicialmente se carga un conjunto de datos en el programa este no es visualizado. En vez de esto el nombre del conjunto de datos aparece en la lista del estudio, y el usuario debe seleccionar este conjunto de la lista para visualizarlo.</para>
+  
+  <para>Ver múltiple conjuntos de datos es tan simple como importar mas de un conjunto de datos, y entonces selecionar que conjuntos queremos ver de la lista del estudio.</para>
+
+  <para>El periodo de tiempo se selecciona del diálogo de tiempo y se describe en mas detalle en <xref linkend="frame-dialog"/></para>
+
+  </sect3>
+
+  <sect3><title>Manejo del Ratón</title>
+
+   <para>Las siguientes acciones del ratón puden ser usadas sobre los datos de las vistas ortogonales</para>
+
+   <variablelist>
+
+     <varlistentry><term>MAYUSC+Botón 1</term> 
+     <listitem><para>Esta combinación permite desplazar el volumen en el espacio (normalmente usado para alinear volúmenes de datos). Mientras se aprieta MAYUSC, al pulsar el el botón 1 en la imagen, se cojerá el volumen activo. Ahora puede desplazarlo alrededor del marco. Cuado el volumen se halla en la posición deseada para soltarlo pulsar el botón 3. Cualquier otro botón del ratón cancelará el desplazamiento.</para></listitem>
+     </varlistentry>
+
+     <varlistentry><term>MAYUSC+Botón 2</term> 
+     <listitem><para>Esta combinación rota el volumen en el espacio (normalmente usado para alinear volúmenes de datos). Mientras se mantiene pulsada MAYUSC, pulsar (y soltar) con el botón 2 en la imagen, se cojera al volumen. Ahora puede rotar el volumen activo. En este punto para soltar el volumen, pulsar el botón 3. Cualquier otro botón cancelará la rotación.</para></listitem>
+     </varlistentry>
+
+     <varlistentry><term>Ctrl+Botón 3</term>
+     <listitem><para>Esta combinación situa un punto de alineación en la posición donde este el cursor. Un diálogo pedirá el nombre del punto.</para></listitem>
+     </varlistentry>
+
+   </variablelist>
+
+
+  </sect3>
+  
+
+</sect2>
+
+<sect2 id="manual_alignment"><title>Alineación Manual de Volúmenes</title>
+
+  <para>Lo que sigue es una guía rápida para alinear manualmente volúmenes en AMIDE</para>
+
+  <procedure>
+    <step>
+      <para>Primero rotar los volúmenes para que esten a nivel respecto a las vista axiales, coronales, and sagitales . Esto se hace fácilmente con la combinación MAYUSC+2 botón , pero también pude hacerse desde el diálogo de modificación de los conjuntos de datos.</para>
+    </step>
+    <step>
+      <para>Elija un volumen como activo, este se moverá. El otro permanecerá "fijo" .</para>
+    </step>
+    <step>
+      <para>Desplace el volumen activo hasta alinearlo con el fijo. Esto se hace fácilmente con la combinación MAYUSC+Botón 1 , pero también puede hacerse desde el diálogo de modificación de los conjuntos de datos.</para>
+    </step>
+    <step>
+      <para>Los ajustes finos es mejor llevarlos a cabo desde el diálogo de modificación de los conjuntos de datos.</para>
+    </step>
+  </procedure>          
+  
+</sect2>
+
+
+<sect2 id="data-set-dialog"><title>Diálogo de Modificación de Conjuntos de Datos</title>
+
+    <para>Para modificar los Parametros de un volumen, pulsar con el botón 3 en le volumen del arbol del estudio para que aparezca el diálogo de modificación. Los parámetros modificables se dividen en las siguientes páginas.</para>
+
+   <variablelist>    
+
+    <varlistentry><term>Basic Info</term>
+      <listitem><para>En esta página hay opciones para modificar el nombre, tipo de modalidad, factor de conversión, y tipo de interpolación usado en este volumen de datos (descrito en <xref linkend="interpolation"/>). El factor de conversión es el parámentro por el que se multipilican el volumen de datos antes de verlo o cuantificarlo. Al estar los datos en una escala arbitraria de valores ECAT/MAP, el factor de conversión se puede utilizar para analizar los datos con otro tipo de unidad d e referencia(p.e. Porcentaje de Dosis Inyectada [%ID]). También hay una calculadora incluida, donde se pueden meter los parámetros como el peso del sujeto y la dosis inyectada, generandos el factor de conversión.</para></listitem>
+    </varlistentry>
+    
+    <varlistentry><term>Centro</term>
+      <listitem><para>Se puede desplazar el volumen de datos con respecto al origen de coordenadas. Las dimensiones xyz son en milímetros.</para></listitem>
+    </varlistentry>
+
+    <varlistentry><term>Tamaño del Voxel</term>
+      <listitem><para>El Tamaño del voxel de los datos (también en milímetros) pude ser alterado en esta página. El botón "keep aspect ratio" especifica que cuando se altera cualquier dimensión del voxel (x, y, or z), las demás dimensiones se alteraran en la misma proporción.</para></listitem>
+    </varlistentry>
+
+    <varlistentry><term>Rotar</term>
+      <listitem><para>El volumen de datos puede ser rotado sobre su cento en esta página. Hay una ruedecita por cada plano. La ruedecita axial rotará el volumen en el plano transversal (rota sobrel el eje z). La ruedecita coronal rotará el volumen en el plano coronal (rota sobrel el eje y). Y la rudecita sagital lo hará sobre el plano sagital (rota sobrel el eje x). El botón "reset to default" deshace las rotaciones dejando el volumen como al principio. Al pie de página existe una matriz con las tranformaciones de las coordenadas del volumen con respecto al las coordenadas de origen.</para></listitem>
+    </varlistentry>
+    
+    <varlistentry><term>Mapa de Color/Umbral(Threshold)</term>
+      <listitem><para>Esta página es análoga al del diálogo de Umbral (descrita en <xref linkend="threshold_dialog"/>).</para></listitem>
+    </varlistentry>
+
+   <varlistentry><term>Tiempo</term>
+      <listitem><para>Desde esta página se puede alterar la información respecto al los tiempos de los datos. El tiempo de comienzo del scan puede cambiarse con respecto al tiempo de otros scans. También pueden hacerse correciones en la duración de cada marco de tiempo(Frame Time) .</para></listitem>
+    </varlistentry>
+
+   <varlistentry><term>Windowing Preferences</term>
+    <listitem><para>
+      The max and min threshold levels used for the bone and soft
+      tissue CT window buttons can be explicitly set here.  The
+      "Insert Current Thresholds" button will reset the max and min
+      values with the data set's currently used threshold levels.  
+     </para></listitem>
+    </varlistentry>
+    
+    <varlistentry><term>Immutables</term>
+      <listitem><para>Este panel lista la información que no puede ser alterada. El formato interno subyaccente y las dimensiones del voxel se muestran en esta página.</para></listitem>
+    </varlistentry>
+
+    </variablelist>
+</sect2>
+</sect1>
+
+
+
+
+ 
+<!-- ###################################### -->
+<sect1 id="rois">
+  <title>Usando Regiones de Interés (ROI's)</title>
+
+ <para>ROI(Region of Interést) es decir Región de Interés. Un ROI designa un subvolumen del volumen de datos sobre el que serán calculadas las estadísticas.</para>
+
+
+<sect2><title>ROI Types</title>
+
+  <para>Lo siguientes tipos de ROI son soportados por AMIDE:</para>
+  
+  <sect3><title>Geometric ROI's</title>
+
+   <variablelist> 
+
+    <varlistentry><term>Elipsoide</term>
+    <listitem><para> An ellipsoid is similar to a sphere, but with a
+      diameter specified for each direction [x,y,z].  In the case of
+      x=y=z, the ellipsoid is a sphere.</para></listitem>
+    </varlistentry>
+  
+    <varlistentry><term>Cilindro Elíptico</term>
+    <listitem><para>Similar al cilindro excepto que su base en vez de un círculo es una elipse.</para></listitem>
+    </varlistentry>
+
+    <varlistentry><term>Box</term>
+    <listitem><para>Caja 3D.</para></listitem>
+    </varlistentry>
+
+   </variablelist>
+
+  </sect3>
+  
+  <sect3><title>ROI Isocontorno</title>
+
+    <para>ROI Isocontorno, son regiones seleccionadas del volumen cuyos límites tienen el mismo valor. Hay dos tipos, isocontronos 2D y 3D .</para>
+    
+   <variablelist> 
+
+    <varlistentry><term>Isocontorno 2D</term>
+    <listitem><para>El isocontorno 2D se deriva del dibujado en uno de los cortes. . La profundidad del isocontorno 2D esta determinada por el grosor del corte visualizado.</para></listitem>
+    </varlistentry>
+  
+    <varlistentry><term>Isocontorno 3D</term>
+    <listitem><para>El isocontorno 3D se deriva considerando un valor del marco de tiempo selecionado del volumen activo.</para></listitem>
+    </varlistentry>
+  
+   </variablelist>
+
+ </sect3>
+  
+  <sect3><title>Freehand ROI's</title>
+
+    <para> Freehand ROI's are regions of interest that are drawn
+    manually.  </para>
+    
+   <variablelist> 
+
+    <varlistentry><term>2D Freehand</term>
+
+    <listitem><para>A 2D Freehand ROI is similar to a 3D Freehand,
+         except that it is constrained to be only one voxel thick.  By
+         default, the depth is the current slice thickness, although
+         this can be changed by the user.</para></listitem>
+    </varlistentry>
+  
+    <varlistentry><term>3D Freehand</term>
+    <listitem><para>An ROI that can be drawn freely in all 3 dimensions..</para></listitem>
+    </varlistentry>
+  
+   </variablelist>
+
+ </sect3>
+  
+</sect2>
+
+
+<sect2><title>Dibujando ROI's</title>
+
+  <para>Para dibujar un ROI, primero necesita crear un ROI nuevo. Puede añadir un ROI a todo el estudio o a un volumen en particular. Para añadirlo al estudio, puede seleccionar el ROI en el menu item "Edit-&gt;add ROI:" , o hacer pulsar el botón 3 en el área desnuda el árbol del estudio. Para añadir un ROI a un volumen , hacer SHIF+botón 3 sobre el volumen a añadir. En ambos casos emergerá una cajita de diálogo para entrar el nombre del ROI.</para>
+
+  <para>Al añirlo al pricipio , el ROI nuevo (todavía no dibujado) sera seleccionado en el árbol del estudio. Cuando un ROI todavia no dibujado es seleccionado, el programa usara el la siguiente acción del ratón sobre una vista para empezar el proceso de dibujo del ROI.</para>
+
+  <para>Para ROI's elipsoide, cilindroide y caja 3D, una pulsación d el botón 1 empezará un dibujo de borde a borde , mientras que si pulsamos el botón 3 empezará el dibujo por el centro. Las dimensiones xy del ROI se determinan con este proceso. La dimensión z (grosor) del ROI se puede especificar en el diálogo que emergerá al acabar de dibujar el ROI.</para>
+
+  <para>Para los isocontornos, el valor de donde este situado el cursor sera usado para derivar el isocontorno.</para>
+
+  <para>
+   For freehand's, the point on the screen that is clicked upon will
+   be included in the ROI.
+  </para>    
+
+</sect2>
+
+<sect2><title>Manipulando ROI's</title>
+
+  <para>Después de haber dibujado un ROI, puede ser manipulado ajustando su volumen, posición y orientación. Puede manipular directamente el ROI pulsando en cualquiera de las ventanas. El botón 1 se usa para desplazar los ROIs. El botón 2 para rotar los ROIs elpisoides, cilindroides y cajas 3D y en el caso de los ROI de isocontorno para borrar puntos. El botón 3 se usa para hacer zoom de los ROI's elipsoide, cylindro elíptioco y caja 3D, y redefine le valor del isocontrono en el caso de esos ROIs.</para>
+
+  <para> For isocontour and freehand ROI's, drawing mode can be
+     entered by using thie middle mouse button (button 2).  Once
+     entered, points can be added or removed from the ROI by using the
+     left (button 1) or right (button 3) mouse buttons, respectively.
+     Holding down the shift key while using these buttons increases
+     the size of the action.  The middle button (button 2) allows the
+     user to leave drawing mode.
+  </para>
+
+  <para>También puede editar el tamaño,situación, orientación, nombre etc.. pulsando el botón 3 sobre el nombre del ROI en la lista de items del estudio. Esto hace que aparezca el diálogo de Modificación de ROIs (descrito en en <xref linkend="roi-dialog"/>).</para>
+    
+</sect2>
+
+
+
+<sect2 id="roi_statistics"><title>Calculando Estadísticas</title>
+
+  <para>Las estadísticas dentro de un ROI se pueden calcular con el menu item "Tools-&gt;calulate ROI statistics" . Eligiendo este emergerá un diálogo que le permitirá elegir entre que ROI (o todos) y entre que volúmenes (o todos) quiere que se calculen las estadísticas. También pude elegir que se calcule sobre subconjuntos de vóxeles, significando el cálculo sobre el x% de vóxeles con valor máximo del ROI.</para>
+
+  <orderedlist>
+   <listitem>
+    <para> Calculate over all voxels. </para>
+   </listitem>
+
+   <listitem>
+    <para> Calculate over highest x percent of voxels.  For example,
+    if you choose this and pick 25% as the number, your ROI will be
+    calculated from the 25% of the voxels in the ROI that have the
+    highest values.
+    </para>
+   </listitem>
+
+   <listitem>
+    <para> Calculate for voxels &gt;= % of Max.  This method is based on
+    Lee, Madsen, Bushnel, and Menda, Nuc Med Comm 2000, 21:685-690.
+    As an example, if you choose this and pick 50% as the number, the
+    highest valued voxel in the ROI will be found, and then the ROI
+    statistics will be calculated for all voxels that are greater or
+    equal to 50% of the highest valued voxel.
+    </para>
+   </listitem>
+
+   <listitem>
+    <para> Calculate for voxel &gt;= Value. This algorithm only does
+    calculations for voxels in the ROI that have a value greater than
+    the value specified.
+    </para>
+   </listitem>
+
+  </orderedlist>
+
+  <para> There's also a check box to enable "more accurate
+  quantitation".  The default algorithm (corresponding to unchecked)
+  makes some approximations in deciding which voxel are in our out of
+  the ROI.  If this check boxed is checked, the ROI results will be
+  more accurate, but will take much longer to compute.
+  </para>
+
+  <para>Despues de pulse 'execute' , ejecutar, tras unos instantes el programa mostrará los valores calculados. Seleccionando "save as" permite guardarlo es un fichero con los valores separados por una tab (TSV). Este fichero debería ser importado fácilmente a cualquier hoja de cálculo (Excel es un poco estúpido, tiene que expecificarle que esta importando un fichero TSV, Tab Separated Values).</para>
+
+  
+
+
+
+ <sect3><title>Facilidades para los Cálculos de los ROI</title>
+  
+  <sect4><title>Varianza/Std. Dev./Std. Err.</title>
+    
+    <para>A día de hoy, AMIDE genera valores de varianza/std. dev./std. error que ocasionalmente pueden interesar para los investigadores. Es muy importante recordar , que esos números representan el ruido en los datos, NO el ruido en su experiemento.</para>
+
+    <para>La varianza del experimento solo puede ser tomada repitiendo multiples muestras (p.e. haciendo multiples scans) y calculando la varianza entre diferentes muestras.</para>
+
+  </sect4>
+
+  <sect4 id="roi-volume-calculation"><title>Cambiando el Volumen Calculado</title> 
+
+   <para><emphasis>Historia corta:</emphasis> El volumen calculado mostrado por el diálogo de estadísticas del ROI es correcto. Use este valor como volumen del ROI, no el que podría calcular a man basándose en las dimensiónes del ROI.</para>
+
+   <para><emphasis>Historia larga:</emphasis> AMIDE calcula el ROI's trasladando las dimensiónes del ROI al las coordenadas del espacio del volumen de datos. Entonces calcula las estadísticas de todos los volúmenes de datos que hay en el ROI. Para los vóxeles que caen en el límite del ROI, AMIDE subdividirá el voxel en un número finito de subvóxeles, y hace el cálculo sobre los subvóxeles. Esta aproximación resulta en estadísticas correctas, pero es importante darse cuenta que el ROI calculado es una representación discretizada del ROI analítico. Así que mientras el verdadero volumen de un elipsoide es pi*r1*r2*r3, el volumen calculado por AMIDE dependerá del número de vóxeles y subvóxeles que se determinan dentro del elipsoide, que a su vez puede depender de la orientación del ROI respecto al volumen de datos en cuestión. Como el volumen dado por AMIDE representa el subvolumen en el volumen de datos para el cálculo del ROI, querrá usar ese valor (no el valor real elipsoide).</para>
+  </sect4>
+
+  <sect4><title>Why isn't a "total" statistic calculated for the ROI?</title>
+
+   <para> AMIDE doesn't present the "total" value in the ROI, as it
+   doesn't necessarily know what the units of the underlying data are.
+   If you're using PET or SPECT data, your voxel values are most
+   likely proportional to activity/volume/time.  To calculate the
+   total in your ROI, you should multiple the mean value of the ROI
+   times the ROI volume and the frame duration.  If you're using CT
+   data, your values are probably proportional to density, so to
+   calculate the total you would multiple the mean ROI value by the
+   ROI volume. </para>
+
+  </sect4>
+
+ </sect3>
+
+ <sect3 id="roi-terms"><title>Explicaciones de los Valores Estadísticos de los ROI's</title>
+
+  <variablelist>
+  
+   <varlistentry><term>Mediana</term>
+   <listitem><para>Es el valor de mediana value de todos los vóxeles que estan total o parcialmente incluidos en el ROI. Para un numero par de vóxeles , la mediana se define como el promedio de los 2 valores centrales.</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term>Media</term>
+   <listitem><para>El valor media de los vóxeles del ROI. Los vóxeles parcialmente incluidos en el ROI son proporcionalmente sopesados.</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term>Varianza</term>
+   <listitem><para>La varianza de los vóxeles en el ROI. Esta es de hecho un cálculo de varianza sopesada asi los vóxeles parcialmente incluídos en el ROI son correctamente manejados.</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term>Desviación Estandard</term>
+   <listitem><para>La raiz cuadrada de la varianza.</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term>Error Estandard</term>
+   <listitem><para>La raiz cuadrada de la varianza , dividido por la raiz cuadrada del numero total de vóxeles (total o parcialmente) en el ROI.</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term>Mínimo/Máximo</term> 
+   <listitem><para>El valor mínimo y máximo de todos los vóxeles parcial o totalmente incluidos en el ROI.</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term>Tamaño</term>
+   <listitem><para>El volumen de un ROI (en mm cúbicos). Detalles de este cálculo arriba en: <xref linkend="roi-volume-calculation"/>.</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term>Fractional Voxels</term>
+   <listitem><para>Es la suma del peso de los vóxeles, y da una indicación de cuan grande es el ROI en el espacio de vóxeles.</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term>Vóxeles</term>
+   <listitem><para>Es el número total de vóxeles incluidos calculando el ROI, tanto parcial como totalmente. En contraste a la medida "Fraction Voxels", los "Vóxeles" dan mejor indicación de la valided estadística de la median, varianza, etc ..</para></listitem>
+   </varlistentry>
+
+  </variablelist>
+ </sect3>
+
+</sect2>
+
+
+
+<sect2 id="roi-dialog"><title>Diálogo de Modificación de ROI</title>
+
+ <para>Para modificar directamente los parámetros del ROI, pulsar el botón 3 en el nombre del ROI en el árbol del estudio, para que emerga el diálogo de modificación. Los parámetros que se pueden modificar se dividen en dos páginas. pages.</para>
+
+ <variablelist>
+  <varlistentry><term>Basic Info</term>
+   <listitem><para>El nombre y tipo de ROI se puede alterar en esta página.</para></listitem>
+  </varlistentry>
+    
+  <varlistentry><term>Centro</term>
+   <listitem><para>El centro del ROI puede despalzarse en esta página . Los parámetros xyz estan en milímetros.</para></listitem>
+  </varlistentry>
+    
+  <varlistentry><term>Dimensiones</term>
+   <listitem><para>El tamaño del ROI se puede alterar en esta página. Las dimensiónes x, y, y z estan milímetros y orientadas con respecto a la orientación del ROI.</para></listitem>
+  </varlistentry>
+    
+  <varlistentry><term>Rotar</term>
+   <listitem><para>El ROI puede rotarse sobre su centro en esta página . Hay una ruedecilla para cada uno de los tres planos. La ruedecilla transversal rotará el ROIen el plano transverso (rota sobre el eje z). La rudecilla coronal rotará el ROI en el plano coronal (rota sobre el eje y). Y la ruedecilla sagital girará el ROI en el plano sagital (rota sobre el eje x). El botón "reset to default" deshace los giros dejando la orientación original. Al pie de esta página hay una matriz que muestra las coordinadas del ROI respecto a las coordenadas de origen.</para></listitem>
+  </varlistentry>
+  </variablelist>
+</sect2>
+</sect1>
+
+
+
+
+
+<!-- ###################################### -->
+<sect1 id="study">
+  <title>The Study</title>
+
+ <para> The "Study object" in AMIDE is used for grouping a set of
+ related data sets and ROI's.  Note that the use of the word "Study"
+ here diverges from the traditional nuclear medicine use of the word,
+ in which study generally connotates a single scan (or occasionally
+ multiple but highly coupled scans) done on a single patient.  A study
+ in AMIDE is often used to group an entire experiment (several
+ patients, several animals, whatever) into a single file.  The study
+ object itself is used mostly for storing parameters that effect all
+ other objects stored in the study.</para>
+
+<sect2 id="study-dialog"><title>Diálogo de Modificación de Estudio</title>
+
+    <para>Para modificar los parámetros globales del estudio, pulse el botón 3 del ratón en el nobre del estudio en el árbol del estudio o en la caja de diálogo de modificación de estudio. Los parámetros pueden dividirse de las siguientes categorias.</para>
+
+   <variablelist>    
+
+    <varlistentry><term>Basic Info</term>
+      <listitem><para>En esta página estan las opciónes para alterar el nombre y fecha de creación del estudio.</para></listitem>
+    </varlistentry>
+    
+    <varlistentry><term>Ver Centro</term>
+      <listitem><para>Desde esta página se pude cambiar expliícitamente el centro desde el cual el estudio es visto. Las dimensiónes xyz son en milímetros. También se pueden cambiar explícitamente. The x, y, and z</para></listitem>
+    </varlistentry>
+
+    <varlistentry><term>Rotar</term>
+      <listitem><para>El estudio completo(incluyendo todos su objetos) puede ser rotado sobre el centro de vista de la imagen. Hay una ruedecilla por cada vista ortogonal. La ruedecilla axial rota sobre el plano axial (rota sobre el eje z). La ruedecilla coronal rotará el plano coronal (rota sobre el eje y) . Y la sagital rotará sobre le plano sagital(rota sobre el eje x). El botón "reset to default" permite volver a la rotación original del estudio. A pie de página hay una matriz mostrando las coordenadas del estudio con respecto a las de referencia.</para></listitem>
+    </varlistentry>
+
+    <varlistentry><term>Preferencias de Dibujo de ROI</term>
+     <listitem><para>The width of the line used to draw geometric ROIs can be altered here (1-5 pixels). This parameter is not relevant for isocontour ROI's.</para><para>
+	Canvas layout allows you to switch the three views
+	(transverse, coronal, and sagittal) between a linear style
+	layout more commonly seen in PET software, and an orthogonal
+	style layout more commonly seen in MRI software.  "Maintain
+	view size constant" allows you to pick if you want the size of
+	the view to remain constant or not.  If not checked, the size
+	of the views shown will depend only on the data sets selected.
+	If the checkbox is checked, the size of the views will depend
+	on all the data sets in the study.  Finally, "target empty
+	area" is for setting the size of the empty area in the middle
+	of the target (the crosshairs on the views when changing the
+	view location).
+     </para></listitem>
+    </varlistentry>
+    
+    <varlistentry><term>Immutables</term>
+      <listitem><para>Este panel lista las características del estudio que no puden ser alteradas. "Voxel dim" es la dimensión preferida del voxel, este será usado como dimensión "básica" del voxel, a la cual el zoom es relativa.</para></listitem>
+    </varlistentry>
+
+    </variablelist>
+
+ </sect2>
+</sect1>
+
+
+
+
+
+<!-- ###################################### -->
+<sect1 id="series">
+  <title>Viendo Series de Cortes</title>
+<para>En vez de examinar las vistas ortogonales , se pueden observar series de cortes (todos en la misma orientación). Seleccione: "View-&gt;Series-&gt;Space-&gt;[view]" del menú para para extraer la serie de cortes de una misma orientación. Alternativamente, seleccione: "View-&gt;Series-&gt;Time-&gt;[view]" desde el menú para ver un mismo corte a lo largo del tiempo en un estudio dinámico. El grosor de los cortes es el que había antes de deplegar el menu. Una barra de desplazmiento aparecera encima de la imagen para moverse por el volumen de datos. Notese que una vez vistos los cortes quedan en la memoria lo que hace que su revisión sea mucho más rápida.</para>
+</sect1>
+
+
+
+
+
+
+<!-- ###################################### -->
+<sect1 id="rendering">
+  <title>Renderizado de Datos</title>
+
+<para>El Renderizado en AMIDE se lleva a cabo usando la librería de renderizado de volumenes<ulink type="http" url="http://graphics.stanford.edu/software/volpack/"> Volpack</ulink>. Esta librería de software es portable y , permite renderizado verdadero del volumen (en oposición al renderiazado de superficie usado por otras librerías de software para aceleradoras de hardware).</para>
+
+<para>Para comenzar la ventana de Renderizado, seleccionar los volumenes y ROI's que deseara incluir en el rederizado, y pulse el item del menúg "View-&gt;Rendering" . Se desplegará una pequeña ventana de diálogo con dos opciónes. La primera "Set values greater than max threshold to zero(Poner los valores mayores que max a cero)" permite excluir del proceso los valores máximos. En general no deseará esto, pero prodría ser útil cuando hay valores muy altos que obscurecen zonas que quisiera ver. La segunda opción "Accelerate Rendering(Acelerear Renderizado)" hace que VolPack use un método de aceleración del proceso de renderizado. Obtendrá un aumento de velocidad (sobre 10 veces). Sin embargo requiere aproximadamente tres veces mas de memoria RAM, así si dispone de poca RAM no use esta opción.</para>
+
+<para>Despues de pulsar "Execute" el programa convertirá los volúmenes y ROI's, al formato utilizado por Volpack y hará los cálculos iniciales de renderizado. Para los volúmenes se utilizará el <link linkend="interpolation">tipo de interpolación</link> especificado. Este procedimiento tarda algo de tiempo , luego sea paciente. Por favor note tambien,que al convertir los volámenes, los datos se escalan entre los límites mínimo y máximos establecidos, luego todos los datos mayores del valor máximo se igualaran al valor máximo y todos los valores por debajo del mínimo se igualaran al mínimo. Este escalado pude ser relativo al mínimo y máximo "Global", al mínimo y máximo "Por Segmento de Tiempo(Frame)" , o al mínimo y máximo "Interpolado Entre Segmentos". El escalado "por Corte" carece de sentido en el contexto de rederizado volumétrico, y sera interpretado como escaldo "Global".</para>
+
+<para>Cuando se finaliza esto se despliega una ventana. Su uso se describe abajo.</para>
+
+
+
+<sect2><title>Ventana de Renderizado</title>
+
+  <sect3><title>Panel Principal de Renderizado</title>
+    <para>El resultado del renderizado se representa en el centro de la ventana . Esta ventana permite la interacción con el usuario. El botón 1 permite rotar en el eje xy , y el botón 2 permite rotar en el eje z.</para>
+  </sect3>
+
+
+  <sect3><title>Barras de Giro</title>
+    <para>Existe dos barra de desplazamiento, una encima de la imagen renderizada, y otra en el lado derecho. Estas estan marcadas apropiadamente con el eje sobre el cual rota el volumen. Adicionalmente existe una rudecilla marcada con la 'z'. esta ruedecilla es para rotar sobre el eje z, que es el perpendicular a la imagen. Nótese que los efectos de rotación son acumulativos.</para>
+  </sect3>
+
+  <sect3><title>Reset Axis</title>
+    <para>Este botón situará el volumen en su posición original.</para>
+  </sect3>
+
+
+  <sect3><title>Barra de Herramientas</title>
+
+    <sect4 id="transfer-function-dialog"><title>Botón de Función de Transferencia</title>
+
+    <para>Este desplegará un diálogo con las opciónes abajo descritas:</para>
+
+    <variablelist>
+
+    <varlistentry><term>Tipo Retornado</term>
+      <listitem><para>Este determina si el renderizado sera mas análogo a una radiografía (the "opacity" setting), o mas pareciado a una superficie (the "grayscale" setting). El "grayscale" hace esto especificando la iluminación, el material y usa indicación de profundidad.</para></listitem>
+    </varlistentry>
+
+    <varlistentry><term>Tabla de Color</term>
+      <listitem><para>Aquí se puede cambiar la tabla de color de cada volumen renderizado.</para></listitem>
+    </varlistentry>
+
+    
+    <varlistentry><term>Funciones de Clasificación</term>
+      <listitem>
+      <para>Esta el la parte más confusa del renderizado. Las funciónes de clasificación se usan para la correspondencia entre el valor de cada voxel y su representación final en el renderizado. El el eje x son posibles valores de diferentes vóxeles. En ele eje y es la opacidad lo que otorgara el valor en función del valor del voxel.</para>
+      <para>Las funciónes de clasificación tiene varios botónes a la derecha de sus gráficas. El botón de arriba permite dibujar la función como segmentos curvos. El segundo permite dibujar la función como varias segmentos rectos. Finalmente el último dibuja de nuevo la linea recta inicial.</para>
+      <para>Hay dos funciónes de clasificación:</para>
+
+          <itemizedlist>
+
+	  <listitem><para><emphasis>Dependientes de la Densidad:</emphasis> Esta función dice cuan opaca es en fución del valor del voxel. De alguna manera , tiene analogía con los rayos X , donde la cantidad de rayos X absorbidos depende de la densidad de la estructura.</para></listitem>
+
+	  <listitem><para><emphasis>Dependiente del Gradiente: </emphasis> En vez de relacionar la opacidad con la estructura, esta función depende la opacidad del gradiente entre vóxeles (es decir cuanto cambia el valor de un voxel con respectoa sus vecinos). Este tiene un efecto de realzar las superficies.</para></listitem>
+
+       </itemizedlist>
+     </listitem>
+
+     </varlistentry>
+    </variablelist>
+   </sect4>
+
+    
+   <sect4><title>Botón Monoscópico/Estereoscópico</title>
+    <para>Puede elegir entre renderizar una imagen única (monoscópica), o un par de imágenes esteroscópicas. Un par esteroscópico de imágenes es cuando se generar a un ángulo ligeramente diferente la una de la otra. Cuando se las mira de manera adecuada pueden ser percibidas por el observador como una imagen única tridimensional.</para>
+   </sect4>
+
+   <sect4><title>Zoom</title>
+    <para>Determina el tamaño de la imagen resultante renderizada. Nótese que el cambio de zoom no afecta a la velocidad de renderizado, e incrementando por encima de factor 1 de zoom tampoco se incrementara la resolución de imagen renderizada.</para>
+   </sect4>
+
+  </sect3>
+
+
+
+
+  <sect3><title>Rendering Menus</title>
+    <sect4><title>File-&gt;Export Rendering</title>
+      <para>Este menú le permite exportar la imagen renderizada a un fichero con formato jpg.</para>
+    </sect4>
+
+    <sect4><title>File-&gt;Create Movie</title>
+      <para>Este causa el desplige de la ventana de generación de video. Este diálogo se describe en mayor detalle abajo: <xref linkend="rendering-movie-dialog"/>.</para>
+    </sect4>
+  
+    <sect4><title>Edit-&gt;Rendering Parameters</title>
+      <para>Este despliega el diálogo del parámetros del renderizado. Este dialogo se describe abajo en: <xref linkend="rendering-dialog"/>.</para>
+    </sect4>
+  </sect3>
+  
+</sect2>
+
+<sect2 id="rendering-dialog"><title>Diálogo de los Parámeters de Renderizado</title>
+
+  <sect3><title>Velocidad vs. Calidad</title>
+   <para>Con este menúg desplegable el usuario puede elegir la velocidad y calidad del renderizado. Para incrementar la velocidad, los vóxeles cuyos valores sean el máximo y el mínimo, seran tratados como totalmente opacos o translúcidos respectivamente. La mayor calidad en cambio no usa esta aproximación, la menor calidad si.</para>
+  </sect3>
+
+
+  <sect3><title>Parámetros Estereoscópicos</title>
+
+   <para>Estos parámetros son usados para controlar el resultado cuando se ha elegido la opción "estereoscópica".</para>
+      
+   <sect4><title>Stereo Angle</title>
+    <para>este es el angulo (en grados) entre el par de imágenes renderizadas. Incrementándolo dara mas sensación de profundidad. Un valor razonable para este parámetro es de 2 a 5 grados. Este valor se puede guardar entre diferentes sesiones.</para>
+   </sect4>
+      
+   <sect4><title>Eye Width (mm) </title>
+    <para>Idealmente correspondería a la distancia entre los ojos del observador. Aunque este parámetro está especificado en miliímetros, la distancia real entre las dos imágenes depende de el ajuste de pantalla de cada ordenador. Si la información del monitor que tiene el sitema ioperativo (que normalmente es el caso), the "eye width" el parámetro no estara realmente en milímetros. este parámetro pude ser guardado entre sesiones.</para>
+  </sect4>
+
+ </sect3>
+
+ <sect3><title>Indicación de Profundidad(Depth Cueing)</title>
+
+  <para>Este parámetro sólo se usa cuando los resultados son "en escala de grises".</para>
+      
+  <sect4><title>Permitir/Anular Depth Cueing</title>
+   <para>Especifica si queremos o no 'Depth cueing'. Depth cueing pone una "niebla" que ocasiona que los vóxeles mas distantes aparezcan menos brillantes.</para>
+  </sect4>
+      
+  <sect4><title>Factor Frontal(Front Factor)</title>
+   <para>Es la transparencia de la niebla que se halla por delante del volumen. Si es un número mayor que 1.0, los vóxeles de delante del volumen apareceran mas brillantes. Si fuera menor que 1.0, los vóxeles de delante del volumen apareceran mas obscuros.</para>
+  </sect4>
+
+  <sect4><title>Densidad</title>
+
+   <para>Es cuan gruesa el la "niebla" . A mayor grosor de niebla los vóxeles aparecen más obscuros.</para>
+  </sect4>
+ </sect3>
+</sect2>
+    
+
+<sect2 id="rendering-movie-dialog"><title>Diálogo de Animación del Renderizado</title>
+
+ <sect3><title>Frames</title>
+      <para>Cuantas imágenes debería haber en el video MPEG1 . Los MPEG1 se generan a 30 imágenes/segundo, así el valor por defecto, 300 imágenes dará un video de 10 segundos de duración.</para>
+
+ </sect3>
+
+ <sect3><title>Rotatciones en [x,y,z]</title> 
+      <para>Esto determina cuantas vueltas sobre un eje dado ocurrirán a lo largo del video. La rotación de cada eje sigue este orden x-&gt;y-&gt;z (rota primero x , luego y, y al final z).</para>
+ </sect3>
+
+ <sect3><title>Static/Over Time/Over Frames</title>
+
+   <para> This option allows a rendered movie to be made over a time
+   period, which is useful for dynamic data sets. 
+   </para>
+
+    <para>Nótese que cada vez que se atraviesa un marco de tiempo del volumen, el proceso de renderizado debe de cargar y prepara otro marco de tiempo. Esto hace que crear un video de renderizado dinámico es significativamente mas lento que crear un video solo con rotaciones.</para>
+
+   <para>Esta opción permite la creación de un video de un estudio dinámico. Seleccionando "over time" le permitiría definir el tiempo de inicio y finalización dentro del volumen dinámico. Con la opción "over time", cada segundo es igual en terminos de cuantas imágenes de ese periodo de tiempo seran generadas para el video.</para> 
+
+   <para>Seleccionando "over frames" permite la la entrada de la primera y última imagen (esto sólo tiene sentido cuando se trata de un volumen único). La ventaja de la opción "over frames", es que cada marco de tiempo repercute por igual en el video final, asi cuando la dinámica de interés corresponden a la dinámica de la secuencia del marcos de tiempo del volumen, dando un resultado mas atractivo.</para>
+
+   <para> The "over frames smoothed" option is almost the same as
+   "over frames", except that data will be interpolated between
+   frames.  This makes for a smoother movie (no jumps) but takes much
+   longer as nearly every movie frame has to be reloaded.
+   </para>
+
+ </sect3>
+
+</sect2>
+
+</sect1>
+
+
+
+
+<!-- ###################################### -->
+<sect1 id="tools">
+  <title>Herramientas Adicionales</title>
+
+<sect2><title>Herramienta de Alineamiento(Alignment Wizard)</title>
+
+  <para>In addition to manually aligning data sets (described at <xref linkend="manual_alignment"/>), data sets can also be aligned using
+  the alignment wizard utilizing either mutual information or
+  fiducial markers.</para>
+
+
+  <sect3 id="mutual_information"><title>Alignment with Mutal Information</title>
+  <para> A rigid body alignment can be performed utilizing mutual
+  information between two data sets. This algorithm works by
+  taking orthogonal slices from one data set (transverse, coronal, and
+  sagittal) and computing a transform to best allow matching of these
+  slices to the second data set. This algorithm works best when the
+  two data sets have already been roughly aligned. Note that the
+  orthogonal slices utilized for the matching are derived utilizing
+  the current viewing parameters (current viewing location, slice
+  width, interpolation method, etc).
+  </para>
+  </sect3>
+
+  <sect3 id="procrustes"><title>Alignment with Fiducial Markers</title>
+
+  <para>A rigid body alignment can be performed utilizing fiducial
+  markers. The process is basically:</para>
+  
+  <procedure>
+    <step>
+      <para>Dibujar al menos 3 pares de puntos fiduciales en los volúmenes que desee alinear. El dibujo de puntos fiduciales se describe debajo como <xref linkend="fiducial-marker"/>.</para>
+    </step>
+    <step>
+      <para>Corra el "alignment wizard" (bajo tools-&gt;alignment wizard). para que el "alignment wizard" reconozca 2 marcadores fiduciales como par, deben de tener exactamente el mismo nombre. Así si tiene un marcador llamado "1" en el primer volumen, tendrá que tener un marcador, también llamado "1", en el segundo volumen.</para>
+    </step>
+  </procedure>          
+  </sect3>
+  
+
+  <sect3 id="fiducial-marker"><title>Dibujando Marcadores Fiduciales</title>
+   <para>Se pueden añadir marcadores fiduciales de varias maneras. Para el volumen activo, seleccionar el item del menu "Edit-&gt;Add fiducial mark" y añadirá una marca fiducial en la vista seleccionada. Las marcas fiduciales se pueden añadir directamente a la vista activa pulsando CTRL+botón 3 del raton, que dispondrá una marca fiducial en el lugar que apunte el ratón. Finalmente, los marcadores fiduciales se pueden añadir a volúmenes inactivos pulsando CTRL+botón 3 del ratón mientras se selecciona el volumen de la lista del estudio.</para>
+
+   <para>Después de crear, el marcador fiducial puede ser movido pulsando el punto de marcaje en cualquiera de las tres vistas.</para>
+ </sect3>
+
+ <sect3 id="fiducial-marker-dialog"><title>Caja de Diálogo de Modificación de Marcadores Fiduciales</title>
+  <para>Para modificar los parámetros de una marca fiducial, pulse el botón 3 en la lista del estudio para desplegar la Caja de Diálogo de Modificación de Marcadores Fiduciales. Desde este diálogo, se pueden modificar el nombre y localización del marcador fiducial.</para>
+    
+ </sect3>
+
+</sect2>
+
+
+<sect2><title>Herramienta de Recorte(Crop Wizard)</title> 
+
+  <para>Permite recortar los volúmenes quitando de ellos las partes carentes de interés. Se abrirá un diálogo con el MIP del plano axial, existiendo unos modificadores de dimensión que dibujarán una caja en el MIP, una vez seleccionado pulsar Next y aparecerá el MIP coronal, ajustarlo y pulsar Next de nuevo aparecerá el MIP sagital, recortando así, el volumen desde los 2 planos.</para>
+</sect2>
+
+
+<sect2><title>Factor Analysis Wizard</title>
+   <para>The factor analysis wizard is currently being developed.  It
+   probably won't work for you, and is only included in AMIDE for
+   those who might be interested in working on it (rather than with
+   it).</para>
+</sect2>
+
+
+<sect2><title>Herramienta de Filtrado</title>
+   <para>Nothing written yet...</para>
+</sect2>
+
+
+<sect2><title>Creación de video en una Orientación(Fly Through Wizard)</title>
+   <para>Nothing written yet...</para>
+   <para>Nota, los resultados son mejores si se usa interpolación trilineal.</para>
+</sect2>
+
+
+<sect2 id="profile-dialog"><title>Profile Tool</title>
+ <para>A complete description of this tool has not yet been written.</para>
+
+ <para> The left and right limits of the gaussian fit can be altered
+ by clicking on the profile with the left and right mouse buttons,
+ respectively.  The x value used for initializing the gaussian fit can
+ be picked by clicking on the profile with the middle mouse button.
+ </para>
+
+ <para> Note that the line profile is extracted from the currently
+   viewed image, not the underlying raw data itself. This means things
+   like the current interpolation and FOV will effect the line profile
+   that's generated, and as such may effect the FWHM that's fitted.
+ </para>
+
+</sect2>
+
+
+<sect2><title>ROI Estadísticas</title>
+   <para>La descripción de la estadísticas del ROI en: <xref linkend="roi_statistics"/>.</para>
+</sect2>
+
+</sect1>
+
+</article>

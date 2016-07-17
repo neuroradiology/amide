@@ -1,0 +1,1012 @@
+1.0.5 2014.01.25
+	* raw_data_import now shows correct file size if file > 2GB
+	* new math functions: remove-negatives, t2* calc
+	* increased bitrate of ffmpeg encoding by 5-fold
+	* fixed func definition for amitk_color_table_menu_new [1]
+	* default ROI transparency increased to 0.5
+	* switch to non-deprecated libavcodec functions [1]
+	* various edits for hardening using strings [1]
+	* workaround for gtk+ bug of endless loop when spin buttons in toolbars are double or triple clicked
+	* remove "inline" on functions in amitk_point and amitk_space, was causing issues with clang on osx
+	  as wasn't C99 compliant, and didn't seem to increase speed as -O2 optimization probably already inlines these
+	[1] Reported by Andreas Tille
+
+1.0.4 2012.11.20
+	* fixed exporting views, height incorrectly substituted with width
+	* initialize scaling_intercept to 0 when creating new data set
+	  - was problem importing DICOM on Mac, as mem not init'ed to 0
+	* amide_gconf_set_float had bug on OS X, only saved integer value
+	  - seen as error in export dataset - wrong voxel size [1]
+	[1] Reported by Daniel Vonwil
+
+1.0.3 2012.10.04
+	* reinabling gnomecanvas antialiased support, hopefully now stable
+	  - roi's now filled in, alpha of fill can be customized
+	* resets view center if initial dataset loaded
+	* error message dialog now scrollable, so won't cover entire screen
+	* added "threshold" and "multiple" math operations
+	* autoplay feature for flipping between gates on gated study
+	* reexpanded the local slice cache size, now 3 * # frames or gates
+	* now keeps track of gate times (dicom trigger time)
+	* when reading in xmedcon, tries to use orientation/offset
+	  provided for DICM data, and orientation for ECAT.
+	* fixed scroll wheel on win32 (required libgnomecanvas-2.30.3)
+	* now able to specify colors of ROIs and fiducial marks [1]
+	* added a tool for measuring distances between fiducials/ROIs [2]
+	* ffmpeg library fix, switch avcodec_init to avcodec_register_all [3]
+	[1] Requested by Ajay Kumar and Janet O'Sullivan
+	[2] Requested by Josef Vizkelety, Michael Braden, A. Mehranian, etc.
+	[3] Contributed by Peter Bloomfield
+
+1.0.2 2012.04.27
+	* Added MIP and MINIP rendering methods for thick slices
+	* mac bundle now is able to export JPEG images [1]
+	* will now separate diffusion data into two volumes
+	* enabled scrollwheel use on canvases
+	* widend the tree box
+	* mutual information alignment now handles negative values
+	* cleaned up spec file
+	* zh_TW translation file [2]
+	* fixed several bugs related to translations
+	* thickness now not overwritten when loading in .xif
+	* try to read in DICOMDIR files with lower/upper case reference issues
+	* canvas slice cache size now fixed, was getting too large if multiple datasets
+	* nearest neighbor/trilinear algorithm now more graceful at data set edges
+	* POINT_TO_VOXEL macro now casts instead of floor, slight speed boost for slicing
+	* configure fix to us LIBS instead of LDFLAGS for dcmtk detection [3]
+	[1] Noticed by Youngho Seo
+	[2] contributed by William Chao
+	[3] contributed by Gert Wollny
+
+1.0.1 2011.11.11
+	* conversion between different raw data formats in dcmtk_export no longer fails
+	* data_set_copy_in_place no longer forces calculation of max/min values
+	* now reads in injected dose correctly from DCMTK [1]
+	* default injected dose/weight now NaN
+	* additional tags in exported DICOM files for compliance [2]
+	* "default directory" preference fixed [3]
+	* added preference to utilize exec directory as default
+	* will now separate multi-TI dicom data
+	* added flat-file preferences (used on mac os x)
+	[1] Noticed by Wangxi Hai
+	[2] Requested by Chih-Ann Yang
+	[3] Noticed by Victor Yushmanov
+
+1.0.0 2011.07.22
+	* fixed color table for inverse hot metal contour
+	* fixed uninitialized iterator in data_set_reduce_scaling_dimensions [1]
+	* fixed manual entry of voxel size on tb_export_data_set dialog [2]
+	* updated configure.in for 3.6.0 [3]
+	* zoom no longer corrupted if no data sets [4]
+	* fixed orientation errors on dcmtk_export [5]
+	* added a mutual information alignment algorithm [6]
+	* updates to Mac OSX package to allow saving prefs [7]
+	[1] Encountered by Done Ugarte
+	[2] Noticed by Morton Ostergard
+	[3] Noticed by Wolfgang Pichl
+	[4] Noticed by Erik Nolf
+	[5] Noticed by Chih-Ann Yang
+	[6] Contribution by Ian Miller
+	[7] Noticed by Janet O'Sullivan
+
+0.9.3 2011.03.06
+	* altered ffmpeg include paths for compiling on non-fedora systems [1]
+	* more gtk deprecated cleanups [2]
+	* converted GtkFileSelection to GtkFileChooserDialog
+	* got rid of AmitkXifSel widget (old GTK code)
+	* saving studies as XIF directories now done via a separate File menu item
+	  removed "save as XIF directory" preference
+	* use xmedcon's pixdim[4] for frame duration on static analyze [3]
+	* incorrect initialization of affine[] in amitk_canvas (also noted by [4])
+	* we're dependent on gtk >= 2.16 [4]
+	* updates for dcmtk 3.6.0
+	* multiframe dicom file support via DCMTK [5]
+	* problems deleting objects in amitk_tree_view [6]
+	* exporting in mac os x version broken due to dbus issues [7]
+	[1] Suggested by Peter Bloomfield
+	[2] Suggested by Ian Miller
+	[3] Suggested by Felix Gremse
+	[4] Found by Henrique Rocha
+	[5] Suggested by Robert Miletich
+	[6] Found by Otto Muzik
+	[7] Found by Jul Lea
+	
+0.9.2 2009.12.17
+	* switched from libfame based mpeg encoding to ffmpeg
+	* more acurate gnome-vfs/gconf requirements in configure [1]
+	* fixed error compiling without DCMTK [2]
+	* fixed error with warning message strings containing '%' [3]
+	* G_DISABLE_DEPRECATED and GTK_DISABLE_DEPRECATED now off by default [4]
+	* Fix on win32 DCMTK build to allow exporting DICOM on win32
+	[1] Suggested by Peter Bloomfield
+	[2] Found by Marko Kauzlaric
+	[3] Found by Kris Thielemans
+	[4] Found by Wolfram Brenig
+	[5] Found by Joe Paugh
+
+0.9.1 2007.12.16
+	* added gtk_disable_locale on win32 to keep i18n from screwing up
+	* import raw on win32 was crashing due to NULL string [1]
+	* transformed help docs into gnome-doc-utils format
+	* fixed .spec file, rpm build now working again
+	[1] Found by Kai-Hsiang Chuang
+
+0.9.0 2007.12.02
+	* removing gtk 2.2 dependencies, now dependent on gtk >= 2.10
+	 -gtk_option_menu switched to gtk_combo
+	 -gnome_config use switched to GConf on unix
+	 -config settings now saved in registry on win32
+	 -bug with dragging of off canvases now gone
+	* removed dependencies on libgnome and libgnomeui
+	 -GNOMEUI menu/toolbar switched to GtkAction
+	 -GnomeDruid replaced with GtkAssistant
+	 -gnome_program_init replaced with gtk_init
+	* amitk_space_transform now propagates correctly through children
+	* xpm icons removed, all icons now from .h pixbuf data
+	* dicom import now reads in full series date and time [1]
+	* now can export data sets via libdcmdata [2,3]
+	* fixed errors with cropping type conversion
+	* change Categories in .desktop file [4]
+	* extended math capabilities for multi-frame data sets [5]
+	* changed labeling of %ID/g to %ID/cc to make explicit [6]
+	[1] Requested by David Yerushalmi
+	[2] Requested by Aurlie Dutour
+	[3] Requested by Matthew Leonard
+	[4] Change by Dominique Belhachemi
+	[5] Requested by Michael Braden
+	[6] Requested by James Yu
+
+0.8.23
+	* help window incorrect for freehand roi's [1]
+	* changed erase outside roi to shift-m3 from shift-ctrl-m3
+	* incorrect exporting of multi-frame data sets, values zero [2]
+ 	* poor threshold setting on all negative value data sets [3]
+ 	* import file dialog now closed prior to importing
+	[1] Found by Marco Bucci
+	[2] Found by Andre Manook
+ 	[3] Noticed by David Yerushalmi
+
+0.8.22 2007.09.28
+	* fixed bug with drawing 1st voxel of freehand (introduced 0.8.21) [1]
+	* autodetect xmedcon format support (requires xmedcon > 0.9.10)
+	* button to set the view center as origin [2]
+	[1] Found by Jeff Arkles
+	[2] Requested by Michael Braden
+
+0.8.21 2007.07.14
+        * switched index to strchr in xml.c, amitk_point.c
+	* man page fix [1]
+	* freehand roi's now initially line up with the voxels of the dataset
+	* hopefully finally now have a true radix sign fix,  as mingw can't
+	  really use setlocale
+	* flip around NIFTI images to get right orientation [2]
+	[1] From Dominique Belhachemi
+ 	[2] Suggested by Buyean Lee
+	
+0.8.20 2007.06.29
+	* message popup for export raw data dimensions
+	* init allocated density memory to 0 in render.c
+	* check that voxel sizes are valid in imported data sets [1]
+ 	* tightened up raw_data_import dialog
+	* added millimeter indicators to crop dialog [2]      
+ 	* update for NIFTI support in XMedCon [3]
+	* even more correct placement/orientation of dicom data [3]
+	* added ability to output PNG instead of JPG [4]
+	* added a contour form of hot metal [4]
+	* add a preference for the initial directory to look in [4]
+	* added ability to manually enter in the rotation transform [4]
+	* fixed a bug with rotations
+	* internationalization, now uses en_US instead of POSIX on windows,
+	  also guesses if incorrect radix sign, and tries to fix
+	[1] Suggested by Gokhan Ozer
+	[2] Suggested by Luca Guerrieri
+ 	[3] Suggested by Buyean Lee
+	[4] Suggested by Andre Manook
+	
+0.8.19 2006.10.22
+	* fixed string error in dcmtk_interface.cc [1]
+ 	* somewhat more correct placement/orientation of dicom data
+ 	* fixed bug for reading in dynamic dicom data
+ 	* DCMTK returns number strings as POSIX [2]
+ 	* added progress bars for filters
+	* object movement in alignment wizard now propagates correctly
+	[1] Found by Kris Thielemans
+ 	[2] Found by Marco Bucci
+
+0.8.18 2006.10.08
+	* validate strings from xmedcon as utf8 [1]
+ 	* another potential fix for 64bit check xml_check_file_32bit_okay [2]
+ 	* added export dataset dialog
+ 	  - allows selection of output voxel size [3]
+ 	  - allows selecting bounding box (tight or inclusive) [3]
+ 	* better guessing for reading in DICOM datasets [4,5]
+	* first try at DICOM gated support [5]
+ 	* added ability to import objects (like ROI's) from previous .xif's [6]
+	* better handling of edges in tri-linear interpolation [7]
+	* active data set now required to be visible when moved/rotated
+	[1] Found by Buyean Lee
+ 	[2] Found by Marco Bucci
+ 	[3] Suggested by Luca Guerrieri
+ 	[4] Help from Han Chunlei
+ 	[5] Help from Kris Thielemans
+ 	[6] Suggested by Marco Bucci and many others
+	[7] Suggested by Patrick Chow
+ 
+
+0.8.17 2006.08.30
+ 	* added toolbox for doing image math between data sets [1]
+ 	* now saves weight/dob/dose/etc. when exporting with xmedcon [1]
+	* fixed bug loading DICOM on windows [2]
+ 	[1] with help from Matthew Leonard
+	[2] found by Martin Rodriguez-Porcel
+
+0.8.16	2006.06.29
+	* wasn't reading in intercepts correctly from .xif files [1]
+	* potential fix for 64 bit check in xml_check_file_32bit_okay [2]
+	* fixed bug with rendering of ROI's [3]
+	* in help panel, button "1" now refered to as "m1" for clarity
+	[1] Found by Peter Bloomfield and Marwan Elkoussy
+	[2] Found by Jose Manuel Quesada
+	[3] Found by John Storey-Bishoff
+
+
+0.8.15.3 2006.05
+	* export->series for dynamic data sets led to core dump [1]
+	* now handles DICOM files without scale factors (eg MR)
+	[1] Found by Tove Olafsen
+
+0.8.15.2 2006.04.15
+	* fix to libecat support - includes calibration when possible
+ 	* fixed 64bit/32bit file detection on Mac OS X
+ 	* fixed several glitches with DICOM handling [1]
+ 	  - better guestimation of slice thickness
+ 	  - correctly handles patient orientation
+ 	[1] Found by Andre Manook
+	
+0.8.15.1 2006.04.09
+	* slight xmedcon tweaks - now require xmedcon >= 0.9.9.0
+	* various small fixes for gcc 4.1 (fedora core 5)
+	* fixed independent threshold - menu now gets enabled properly
+ 	* modified libmdc/libecat support, allow reading in truncated data sets
+ 	* fix for exporting data sets
+ 	
+
+0.8.15 2006.02.21
+	* added independent color tables for 2nd and 3rd sets of views [1]
+	* strip NaN's on export->resliced data set to make xmedcon happy
+ 	* added internal scaling intercept - more compatible with dicom
+	  - intercept gets removed if all are zero
+ 	* added additional support for DICOM through the DCMTK library
+ 	  - has support for reading in DICOMDIR files
+ 	* updates for MinGW build
+	* added a field of view parameter - to look at only a subset of data
+	* now reduces scale factor dimension of imported data when possible
+	* can now specify how multiple canvases are layed out (panel_layout option)
+	[1] Suggested by Freimut Juengling
+	[2] Suggested by Kris Thielemans 
+
+0.8.14 2005.11.17
+	* faster functions for initialized amitk_raw_data structures [1]
+ 	* fast roi quantitation now gives more accurate median value
+	* freehand/isocontour drawing speed-ups
+ 	* can export underlying raw roi values to file [2]
+ 	* canvases and tree/help can torn off as separate windows [3]
+	* removed 'logic' for placing orthogonal sets of canvases 
+	  -now simply left to right
+	* Default rendering opacity can now be specified as density only [4]
+	* raw data import dialog values are now persistent [5]
+ 	* distribution on threshold now only shown for global thresholding
+	* can now display thresholds as center/window as well as min/max [6]
+	* additional CT windowing options [6]
+ 	* added "subject orientation", and appropriate displays on canvas [6]
+ 	* added subject name, id, and dob entries [6]
+	* toolbox dialogs now correctly free memory on destroy signal
+	[1] Requested by Buyean Lee
+ 	[2] Requested by Daniel Rubin
+	[3] Suggested by Jonathan Bailleul 	
+	[4] Suggested by Jeff Tseng
+	[5] Suggested by Robert Hunter
+	[6] Suggested by Freimut Juengling
+
+0.8.13 2005.06.24
+	* added freehand ROI's [1]
+	* added drawing mode for isocontour ROI's
+	* Makefile update for gnome 2.10 [2]
+	[1] Requested by Buyean Lee and many other people
+	[2] Found by CG Hsu
+
+0.8.12.1 2005.06.16
+	* slight tweek to the zoom setting code
+
+0.8.12 2005.06.15
+	* added an option to recover corrupted xif files
+	* various small bug fixes for some warnings generated by gcc 4.0
+	* changing voxel_dim (from adding or removing data sets) now compensates zoom [1]
+	* analysis now uses NAN for undefined stuff if available
+	* slice functions now return NAN for undefined pixels instead of zero
+	* implemented function to output multiple data sets as single file [2]
+	* can now put a time label on flythrough and rendered movies [3]
+	* new dynamic movie type - frame with smoothing
+	* three isocontour ranges - above min, below max, between min/max [4]
+	[1] Found by Steve Jones
+ 	[2] Requested by Sheena Lee
+ 	[3] Requested by Anna Wu
+	[4] Requested by Karen Herbst
+ 
+	
+0.8.11 2005.03.12
+	* ROI analysis wasn't correctly freeing the pointer array [1]
+	* disabled reporting of "total" statistic, as this is often 
+	  wrong depending on the underlying data type
+	* error in saving of .xif files with dynamic data on win32 [2]
+	[1] Found by Michael Kreissl
+	[2] Found by Steve Jones
+	
+0.8.10 2005.01.26
+	* ui_series no longer requires corresponding ui_study canvas to be shown [1]
+ 	* Slices of thickness greater then the voxel size were offset in the depth direction [2]
+	[1] Found by Peter Bloomfield
+ 	[2] Found by Jeff Tseng
+
+0.8.9.1 2005.01.13
+ 	* another try at a win32 internationalization fix
+ 	[1] Found by Alien and Liesje
+
+0.8.9 2005.01.08
+	* Makefile.am problems for compiling w/o xmedcon [1]
+	* saving roi statistics records isocontour value [2]
+	* ui_study titlebar includes filename as well as study name[2]
+ 	* internationalization problems [3,4]
+	* set default action on dialogs [3]
+	* clean building without scrollkeeper [3]
+	* center of an isocontour now defined as the center of mass [5]
+
+	[1] Found by Iain
+	[2] Requested by Steve Jones
+ 	[3] Found/Requested by Alien
+ 	[4] Found by Erik Nolf
+	[5] Requested by Steve Jones
+ 	
+0.8.8.1 2004.11.10
+	* updates for x86_64 compilation
+	
+0.8.8 2004.11.02
+	* crash when poping up object dialog of non-viewed data set [1]
+	* accurate roi quantitation algorithm didn't work in inverse mode [2]
+	* isocontour's were overdrawing by one voxel [3]
+	* can now add roi to study object in tree
+	* new preference: can have isocontours drawn as filled
+	* incorrect use of MdcSwapBytes was causing rotated images on big endian [4]
+	* added ability to specify isocontour value (lower value) [3]
+	* updates for (X)MedCon 0.9.8.0
+	[1] Found by Patrick Chow
+	[2] Found by David Stout
+	[3] Found/Requested by Steve Jones
+	[4] Found by Anna Wu
+	
+
+0.8.7 2004.08.22
+	* spin buttons on roi initial popup didn't take decimal places [1]
+	* ui_series panel size can now be adjusted [2]
+	* new isocontour, wasn't showing image value on help window [3]
+	* fixed isocontour erasing [3]
+	* fixed error in profile tool, incorrect values for view_duration < frame_duration [4]
+	* users now have the option of a more accurate roi quantitation algorithm [5]
+	* increased accuracy of the fast roi quantitation algorithm
+	[1] Found by Keon Kang
+	[2] Requested by Freimut Juengling
+	[3] Found by Steve Jones
+ 	[4] Found by Patrick Chow
+ 	[5] Found by Peter Bloomfield	
+	
+0.8.6 2004.06.22
+	* raw data import dialog didn't take gates into account for calculating bytes
+	* fixed rendered movie generation
+	* can now calculate inside ROI for values greater than specific value
+	* amitk_xif_sel crashed when browsing "/" directory [1]
+	* fixed importing of analyze files [2]
+	* get configure script to end if m4 not found [3]
+	* rpm now builds correctly on FC2
+	[1] Found by Peter Bloomfield
+	[2] Found by Charles Henri Malbert
+	[3] Found by Emily Heath
+
+	
+0.8.5 2004.06.07
+	* fixed fopen binary versus text bug on windows [1]
+	* export view function now includes roi's, etc. [1]
+	* fly through mpeg's now include roi's, etc.
+	* data sets can now also be exported resliced [2]
+	* slice generation slightly more accurate for iterating over depth
+	* fixed core dumps with filtering [3]
+	* added export jpeg abilities to ui_series
+	* added gated study support to ui_series
+	* added ability to select which objects go onto series on init
+	* added ability to select which objects go into rendering on init
+	* libecat strings aren't necesarrily NULL terminated [4]
+	* some gtk 2.4 updates (switch to g_idle)
+	* switched to libmdc progressive loader
+	* values read through libmdc are now quantified & calibrated,
+	  they had only been quantified before (branching factor hadn't been added)
+	* updates to gtk-doc reference doc generation process
+	[1] Found/Requested by Steve Jones
+	[2] Requested by Jayashree Kanchana
+	[3] Found by Vania Kenanova
+	[4] Found by Kris Thielemans
+
+0.8.4 2004.04.26
+	* fixed bug in *_calc_frame_max_min [1]
+	[1] Found by Peter Bloomfield
+	
+0.8.3 2004.04.21
+	* added support for gated files [1,3]
+        * profile tool now updated automatically on data set (de)select
+ 	* fixed small graphical glitch with line between full/scaled bars
+ 	* fixed errors with scale_factor and filtering/cropping [1]
+ 	* fixed crash with double clicking finish on filter/crop
+ 	* can now validly pop up a dialog on an undrawn roi [2]
+	* added ROI quantitation based on Lee et al, Nuc Med Comm 2000 21:685-690
+ 	[1] Found/Suggested by Chris Deroose
+ 	[2] Found/Suggested by Keon Kang
+	[3] Suggested by David Stout
+ 
+ 
+0.8.2 2004.02.16
+	* incorrect loading of frame duration through libecat [1]
+	* rendering conversion had diff. dimension between slice and rendering
+	  lead to core dump on Mac OS X, and with some gcc's [2, 5]
+ 	* SUV calculations were off by a factor of 1000 [3]
+ 	* ignore gdk warnings on win32
+ 	  work around for gdkproperty.c "Not Implemented" warnings (gtk 2.2.4)
+ 	* got popt/icons working on win32
+ 	* updated win32 install.  .xif files now associated with AMIDE
+	* updated most of the icons (exception of the toolbar icons)
+	* better interactivity on threshold for remote displays [1]
+	* roi analysis "copy to clipboard" now left justifies roi names [3]
+	* max/min calculations now done on demand
+	* changed mechanism for changing isocontours
+	  old mechanism wasn't working on win32
+	* added x limits to the gaussian fit on the profile tool [1]
+	* added scientific notation support to most of the spin buttons [2]
+	[1] Found/Suggested by Kris Thielemans
+	[2] Found by Anna Wu
+ 	[3] Found/Suggested by Chris Deroose
+	[4] Found by Keon Kang
+	[5] Found by Chris Heier
+	
+0.8.1 2004.01.13
+	* specifying import types was messed up [1]
+	[1] Found by Patrick Chow & Peter Bloomfield
+
+0.8.0 2004.01.11
+	* finally added a (much requested) profile tool
+ 	* improved (correct) loading of non-float data files via (X)MedCon
+	* can drag file's from Nautilus onto the tree
+	* updated for new dynamic data structure coming in (X)MedCon 0.9.0
+	* preferences now saved on a per study/data set basis
+	  default preferences used only for new studies/data sets
+	* added the ability to set a bone and soft tissue window for CT data sets
+	* removed standard error from roi stats.  wasn't sure if it was calculated 
+	  correctly (wasn't weighted), and it's not the experimental std. err. anyway
+	* added copy button to roi statistics window (for copy and paste of values)
+	* various AmitkThreshold cleanups
+	* saving on windows to samba share crashed for large files [1]
+	  not sure why... work around is saving in 16MB chunks in amitk_raw_data.c
+	* default roi stat file is probably annotated as .tsv (was .csv)
+	* warning messages to console/dialogs is now a preference, (was compiled in)
+	* added ability to export data sets
+	* i18n broke reading in .xif's, concorde files for European locales [2]
+	* was trying to change permissions on non-existant files [3]
+	* reading from libecat7 versus libmdc was setting offset inconsistently [3]
+	* filter fwhm was off by a factor of 2
+	* roi analysis results now have more precision, as does the time dialog
+	* Spanish translation of the manual [4]
+	* got rid of console on windows
+	[1] Found by Patrick Chow
+	[2] Found by Chris Deroose
+	[3] Found by Kris Thielemans
+	[4] Contributed by Pablo Sao
+
+
+0.7.14	2003.08.15
+	* disabled anti-aliasing on canvas, was getting core dumps on ROI resizing.
+	* problems with self-referencing with slice_parent fixed, data sets now freed
+	* crop wizard now allows data type/scaling conversions too
+	* updates to help in rois.xml
+	* added help button to several dialogs
+	* fixed small bug with rendering isocontours alone
+	* removed data type specific crop and projection functions
+	  complexity not worth incremental performance improvement
+	* amitk_data_set_get_projection now does all 3 planes at once
+	* cursor color now changes immediately when data set changed
+	* erase outside roi no longer core dumps
+	* when voxel sizes of a data set are changed, the children
+	  now try to follow the scaling changes.
+
+
+
+0.7.13	  2003.07.09
+	* fixed problems with selecting XIF files in the file selector
+
+0.7.12	2003.07.05
+	* added ability to save XIF files as flat file, made default
+	* put in configure ability to detect libgnomecanvas version,
+	  disable anti-aliases canvases previous to libgnomecanvas 2.2.0
+	* .iss file now configure time generated
+	* configure.in file tweaks
+	* zh_CN i18n update from Wales Wang
+	* threshold "abolute" legend now reflects current conversion (%id/g, etc.)
+	* file/xif selection widgets paths are set to last used
+
+0.7.11	2003.06.20
+	* zh_CN i18n contributed by Wales Wang
+	* added back in support for internationalization
+	* ui_common axis works on OS X (was a double free bug, that didn't manifest on linux)
+	* variance is now calculated correctly (was overconservative previously).
+	* generalized FIR filtering added
+	* gaussian filtering done with FIR filtering code, 50% slower, but eliminates
+	  a lot of otherwise redundent code
+	* median/filter code no longer data type specific.
+	* ui_series now tracks changes to data sets/rois/and fiducial marks
+	* fiducial mark "point" parameter eliminated.  redundant
+	* switched over to anti-aliased canvases for all canvases
+	* misc. fly through canvas fixups
+	* switched form of raw format entry in .xif files
+	* rewrote isocontour selecting function, no longer recurseive
+	* changed look of rendering window/added toolbar
+	
+
+0.7.10	2003.05.27
+	* enable-win32-hacks option, allows compilation on cygwin/mingw32
+	* multiple small fixes for cygwin/mingw32
+	* amitk_dir_sel, slight update, and copied _gtk_fnmatch from gtk
+	* added slice caching system
+	* various canvas cleanups
+	* study can now be active_object -> can rotate entire study from canvas
+	* default color tables (set in preference dialog) applied to imported data
+	* enabled subject_weight/injected_dose in medcon_import.c
+	* resets initial study name on first data set load
+	* canvas target on/off is now a study parameter, not a preference
+	* fixes for how multi-frame slices are weighted
+	* fixed problem with "flashing" canvases -> inadvertent update_layout call
+	* stereoscopic rendering on inverse background no longer gives gray background
+	* roi's can now be drawn center-out and edge-to-edge
+	* smaller font for ui_series
+	* various ui_series fixes for dealing with no data sets in object list
+	* can now compile w/o gsl again
+	* compilation now detects that it's being compiled on OS X
+	  - disables axis guide, errant font handling on OS X was causing crashes
+	  - disables esd, esd was locking files after amide crash
+	* roi stats are now on a single pane for static studies
+	* versions of various compiled in libraries shown in about box
+
+	
+0.7.9	2003.04.22
+	* added subject_weight, injected_dose, and cylinder_factor to data_set object
+	* can now easily calculate scale factor for %ID/g and SUV
+	* amitk_object_copy now recurses, children also copied 
+	* dynamic, rotating rendered movies now generated correctly
+	  - was due to a problem with handling of context volume
+	* series now keeps the correct zoom even if all data sets not shown
+	* canvas now minimizes thickness correctly if not all data sets shown
+	* threshold widget more bullet proof, good for retarded data sets
+	* spin buttons can now accept scientific notation input
+	* ROI's now calculated correctly for data sets with one of the dim ==1 
+	* fixed filtering (got screwed up in 0.7.7 with add. of scaling_type)
+	* fixed filtering of dynamic data sets
+	* fixes for initializing the toolbar 
+	* was not removing the active_object ref. appropriately in amitk_tree
+	* fixed selection incorrectly going to study row in amitk_tree
+	* slightly less idiotic handling of cursors
+	* now requests to change read permissions if import file can't be read
+	* more intelligent CTI/ECAT data set naming
+	* more intelligent medcon data set naming
+	* remove iscontour_3d signal from amitk_canvas by moving code from ui_study_cb.c
+	* user now asked to specify the depth of geometric ROI's on drawing
+	* all warnings on reading xml are condensed into a single warning message
+	* stats now point out difference between voxels and fractional voxels
+	* variance now calculated using voxels, not fractional voxels
+	* building rpm/deb files without libecat by default
+	  - xmedcon now supports ECAT 7
+	* building rpm with enable-amide-debug=no
+	* fixed help window not popping up problem
+	
+0.7.8
+	* fixed "crazy spin button" bug, again
+	* stats can now be calculated on only a percentile of the voxels in an ROI
+	* added principle component analysis to the factor analysis wizard
+
+0.7.7	2003.03.03
+	* added ability to only look at a subset of the canvases at a time
+	* added new preference - canvas size can now be fixed to the dimensions of all
+	  data sets, not just the visible ones.
+	* now have a 3-way linked view too
+	* view mode is now saved with the study, and is kept with the study object
+	* fixed problem with amitk_data_set_set_scale_factor not always running when needed
+	* added scaling_type to amitk_data_set, to indicate dimensionality of scaling array
+ 	* ui_time_dialog won't crash if destroyed while event pending
+ 	* on data_set_copy min threshold set was getting ignored
+	* canvas now only uses data sets as bounds.  avoids problems with pathologic ROI's
+	* added .info file generation for fink building
+
+0.7.6	2003.01.18
+	* fixed long standing bug, dealing with slices generated via nearest neighbhor
+	  over multiple frames.  Would cause "flickering" in dynamic movies
+	* added a factor analysis tool
+	  - implemented Sitek, et al. penalized least squares algorithm
+	* ui_fly_through's can now be done over time
+	* ui_series now shows roi's and fiducial marks too
+	* added an option so that moving of rendered object can be click-n-drag
+	* encoding of selected objects now in amitk_object
+	  - new signal, "object_selection_changed"
+	  - canvas and tree now automatically adjust for changed in selection
+	  - canvas and tree also keep track of the entire object tree
+	* more progress bar popups
+	  - histograming
+	  - flythrough and rendering movie progress bars now popup
+	  - cropping
+	  - importing
+	* dropped the "IDL" file type
+	* was crashing on interpolation change after object dialog is closed, fixed
+	* crop dialog: added idle loop handler for canvas update, fixs spin button bug
+	* scrollbar's on canvas now do a better job of guessing their adjustment values
+	* managed to get rid of dump double clicking bug on canvas
+	* study_copy wasn't copying view_start_time
+
+
+	
+0.7.5	2002.12.17
+	* medcon importing now allows negative values (had been set to zero)
+	* added progress bars for rendering context initialization
+	* added progress bars for series slicing
+	* added option to set values above threshold to zero when rendering
+	  - a poor man's "strip" function
+	* projection image voxel units are now in terms of 1/mm^3
+	* object dialog now lists memory usage of data sets
+	* fixed unref'ing bug with gtkdial
+	* compiling without libmdc works again
+	* slices correctly generated for data sets with negative values
+	* added ability to leave cross hairs on canvases (in preferences dialog)
+	* added ability to increase the central "empty area" of cross hairs (in preferences dialog)
+	* removed annoying characters from suggested export file names
+	* switched over to using g_try_malloc, g_malloc crashes on failed allocations
+	* fixed bug in rendering, was allocating 5x more memory then it needed
+	* allowing optimized versus non-optimized (less memory) rendering
+	* switched all numerical entries to spin buttons for better behavior on focus out
+	* rendering is now done in idle loop
+	* series slicing is now done in idle loop
+	* ui_series wasn't disconnecting data_set handlers
+	* added popup dialogs before roi analysis and rendering to allow picking of options
+
+0.7.4	2002.11.26
+	* switched mpeg encoding to using libfame
+	* number of voxels now displayed on roi_analysis dialog
+	* fixed problem with spin_button callback's running on delete_event of program
+	* better medcon data set name guessing
+	* threshold doesn't crash now when dealing with negative values
+	* fixed multiple misuses of EPSILON
+	* isocontour drawing on dynamic scan frames > 0 caused crashes, fixed
+	* resizing of 2D isocontour's thickness now works
+
+0.7.3	2002.11.11
+	* added median filtering to the filter dialog
+	* distribution data now saved in .xif file when available
+	* corrected an error in the generation of roi stats
+	* fixed some small bugs with dual cursor display
+	* on roi clear, max and min are now recalculated, along with the distribution
+	* no longer moving canvas view when shifting roi
+	* now sets thickness correctly when loaded up directly with an imported data set
+	* added ability to erase data set outside of an roi
+	* removed slop in moving fiducial marks
+	* dual cursor display weirdness is now (hopefully) fixed for real
+	* help is working again
+
+0.7.2	2002.10.20
+	* anisotropic filtering added, low pass gaussian filter current implemented
+	* fixed some bugs with rotating/moving data sets
+	* changed rendering x axis again, think it's right now
+	* interpolation is now specified per data set
+	* several entries in amitk_object_dialog are now spinners
+	* disabled main window resizability, this allows the window to autoshrink
+	* roi stat's page now comes up as a better size on small screens
+	* time dialog now resizeable
+     
+0.7.1   2002.10.06
+	* can now generate fly through mpeg movies
+	* can now choose between blended and overlay fusion modes
+	* adding a data set cropping wizard
+	* added the ability to erase a portion of a data set 
+	* most internal formats are now double
+	* shifting and rotating data sets now uses an overlay image
+        * can now compile correctly without libgsl support
+	* alignment's only need 3 points now.  problem was with SVD decomposition
+	* rendering flipped left and right.  that's now fixed
+	* object modification dialog reads in entries a little more sensible now
+	* big endian raw data importing works again
+	* speed increase in reslicing.  loops now iterate only over portion
+	    of slice that encompases the data set
+	* fixed some small bugs with changing the view thickness on the canvas
+	* fixed some small bugs with setting the minimum thickness of a multi data set study
+	* data set icons now change with the data set's color scale
+	* added black/white/black and white/black/white colormaps 
+	* cursor now shows current voxel value on active volume
+	* removed extraneous memory consumption of raw_data_import
+	* now ignores "per slice" scaling when converting to rendering
+
+0.7.0	2002.8.16
+     A complete rewrite of almost all of the code in AMIDE
+
+	Major Changes:
+	* ported program to GTK 2.0 and GNOME 2.0
+	* data set's, roi's, etc. code has now been totally rewritten
+	  - these items are now subclasses of GObject
+	  - any object can be a child of any object
+	  - single object modification dialog that handles all objects
+	* new .xif format (2.0) that follows new object code
+	* old .xif format supported via legacy.c
+	* dropped notion of having a "view coordinate frame", same as base
+	* canvas updates are now done by an idle handler
+	* switched internally used data type to double (was float)
+
+	Minor Changes:
+	* when threshold or popup button hit, and dialog already up, brought to front
+	* dropped all remaining uses of imlib - can now only export images as jpeg...
+	* user is prompted/warned on inverting an axis
+	* ROI's can also be used as fiducial markers for alignments.
+	* added total counts to roi analysis
+	* single tree now used for linked viewing
+	* EPSILON value is now used correctly for comparing floats
+	* ROI rendering conversion speeded up greatly
+
+0.6.4	2002.8.16
+	* view center notifier on help panel now gives correct location
+	* fixed subtle floating point rounding error in drawing isocontours
+
+0.6.3	2003.05.27
+	* Mac OS X doesn't have lround, using rint instead
+	* canvas arrows weren't being updated with canvas slider change
+	* with dual cursor display, second display wasn't being adjusted with canvas slider change
+	* canvas voxel size adjusted when volume's voxel size adjusted
+	* now better at guessing names from xmedcon imported files
+	* can now shift data sets around on the canvas
+	* help info panel slightly rewritten, more legible
+
+0.6.2	2003.05.07
+	* fixed brown bag type error concerning active volume
+
+0.6.1	2003.05.06
+	* added a "linked" view mode, so that data sets can be looked at 
+	  simultaneously but not superimposed
+	* spin buttons (zoom, thickness) no longer "go crazy", required a 
+	  cludge widget, amitk_spin_button
+	* when volume/roi/align_pt is changed on canvas, modification 
+	  dialog also changes
+	* when changing layout, canvases now reset coord frame's appropriately
+	* objects no longer get unselected when ok/apply hit in the 
+	  modification dialog
+	* loading a new study replaces the old study if it's empty
+	* deleting objects works again
+	* now confirms quit when unsaved changes exist
+	* cursors now handled better
+	* 3D isocontour's now warn if drawn over multiple data frames
+	* switched all canvases to antialiased 
+	  except for amit_canvas and ui_preferences
+
+0.6.0	  2003.04.11
+	* realspace_t's are now a referenced object type
+	* widgetized the coord frame rotate panel as amitk_coord_frame_edit
+	* widgetized the canvas as amitk_canvas
+	* widgetized the tree, got rid of ui_volume, ui_roi, ui_align_pt
+	* raw_data_read_volume/read_file no longer requires 
+	  preinitialized structures
+	* added "per frame" scaling ability
+	* added ability to generate movies "over frames" 
+	* added "interpolate between frames" scaling ability.
+	* changed threshold dialog to a linear layout
+	* threshold types (per slice/global/etc.) are now for each volume
+	* setrlimit no longer screws up on MacOS X compile
+	* threshold widget is no longer so picky about inputs
+	* fixed some compile/installation problems (thanks to Juha Koivisto)
+	  -unnecessary include of matrix.h (from libecat)
+	  -unintended install of amide_export.h
+	  -libxml include file location changes
+	
+0.5.0	2002.02.05
+	* added ability to place fiducial reference points and align data sets
+	  using a rigid body transform (procrustes method)
+	* stereoscopic rendering support added
+	* roi's are now also rendered
+	* improved alpha blending algorithm
+	* fixed bug with loading in ASCII data
+	* imported files now are centered on 0,0,0 to begin with
+	* added ability to import CTI attenuation and sinogram files
+	* dropped the use of an inverse axis in the coord frame, as we can just use the transpose
+	* cheasy eye candy color scales on option menu in amitk_threshold
+	* removed colons from default exported file names
+	* roi statistics dialog now is resizeable, scrollable, and lists frame duration
+	* zoom is now based on all data sets in study, not just currently selected ones
+	* fixed small configuration bug when compiling without libmdc (thanks Adam Hupp)
+
+0.4.7	2003.12.20
+	* can now pick between linear and orthogonal layouts for the 3 views
+	* alignment lines work again
+	* series views were showing incorrect locations
+	* can now erase points from an isocontour ROI
+	* dropped double click activating in tree list, too annoying to support in GDK
+	* configure script checks for gcc 2.96, and complains loudly if found
+
+0.4.6	2001.12.09
+	* added 2D and 3D isocontour ROI's
+	* no more notion of an "active" roi.  All roi's are now always moveable
+	* multiple fixes for closing widgets
+	* fix for crashing study parameter window
+	* fixed cti import bug that screwed up the value for small frame durations
+	* added more logic for dealing with corrupted CTI files
+	* canvas event processing functions combined and rewritten for clarity
+	* (X)medcon importing now (hopefully) get's scaling constants right
+	* specific (X)medcon import fallbacks can be specified by the user
+	* added ability to load in PDP and VAX raw data formats
+	* can now handle data set with inf and nan values
+	* fixed the bug with saving ROI statistics
+	* gcc requirement is now listed as gcc 3.0.2
+	
+0.4.5	2003.11.18
+	* removed notion of "grains" for calculating ROI statistics
+	* added a "scaled" color strip to the threshold widget
+	* redesigned the roi analysis dialog box
+	* added a button to the roi analysis dialog save stats info to a text file
+	* fixed minor bug with time button display
+	* fixed minor bug with threshold changes getting lost in volume dialog
+	* can now import files from the command line
+	* dropped 2x2x1 and 2x2x2 interpolations
+	* gtkgammacurve setting is now faster in ui_rendering_dialog
+	* can now set the width of drawn roi's as a user preference
+	* added a gtkdirsel widget, this means .xif directories look more like files
+	* better (but still not perfect) ROI resizing.
+	* axis indicators on the roi and data set dialogs
+	
+0.4.4	2003.10.31
+	* rendering dialog changed considerably
+	  - user can now grab canvas and spin it using buttons 1 and 2
+	  - x,y,z rotations have been moved
+	  - all rotations are now relative to the canvas
+	* rendering parameters dialog fixed up, now allows colormap changing
+	* rendering movies can now be done over time
+	* can now change the name of the output movie
+	* medcon importing importing was a little off, hopefully we
+	  have the right scale factors now
+	* rewrote the threshold widget as a gtk style widget
+	* added toolbar and menu to series widget
+	* allow independent thresholding of series display
+	* added captions to the series pic's
+	* now importing correcting the frame durations of dynamic CTI files
+	* now adding in image offsets from CTI files
+
+0.4.3	2001.10.18
+	* multiple speed improvements (at least 2x faster now for slice generation)
+	  -changed multiple functions to defines (based on profiling)
+	  -inverse matrix is now pregenerated and stored
+	  -default compile is now -O6
+	* now have multiple internal data representations (not just float)
+	* can have multi-dimensional scaling constants, useful for CTI files 
+	  and such that have a scaling constant for each plane (let alone frame)
+	* changed color compositing to an alpha based method, so that
+	  colormaps with white backgrounds can be composited together
+	* changed voxelpoint_t to 4D, volumes are now considered 4D, 
+	  rather than 3D with multiple frames
+	* new data type, data_set_t.  The volume's data set and distribution
+	  array are kept in this format
+	* interpolation type used for conversion to a rendering context can
+	  now be specified
+	* can now export renderings to graphics files
+	* added "reset axis" button to rendering dialog
+	* fixed a bunch of stupid bugs with the threshold widget
+	* no longer save max/min in xml files, as these are regenerated 
+	* no longer save far corner in volume .xml files, redundant information
+	* fixed stupid bug with the raw data import dialog box
+	* fixed problem with adjusting the dimension of ROI's that were not lined
+	  up with the transverse plane
+	* wait cursor no longer stays on erroneously when series widget used
+	* library no longer built by default
+
+0.4.2	2001.10.01
+	* global scaling is now default for new studies
+	* threshold arrows now move better with relation to the cursor
+	* keeps better track of which directory we're current working/saving in
+	* can now export the views as image files (jpeg/tiff/ps/eps/png/etc.)
+	* fixed endian issues with loading in floats and doubles
+	* now ensures save files end with .xif
+	* numerous build chain bugfixes (now compiles and runs on Mac OS X)
+	* rewrote trilinear interpolation (much faster)
+	* dropped bilinear interpolation 
+	  (doing it correctly would be slower then trilinear)
+	* fixed interpolation bug for slices of depth != volume->voxel_size.z
+	* upgraded almost all the program from using gdk_imlib to gdk_pixbuf
+	* changed the origin of our image volume to the far left bottom corner
+	  - world coordinate system is now right handed (this is a good thing)
+	  - new .xif version (y axis now points in opposite direction)
+	  - medcon, idl, and pem inputs also updated
+	  - many many updates to make this change work
+	* elimination of several unneeded and confusing realspace functions
+	* got rid of the "main" window 
+	* changes with command line parsing, no longer use "-i" to specify the
+	  input file.  Also can specify multiple input files
+	* fixed a long standing problem with destroying already dereferenced
+	  roi_item canvas objects - thanks to awu
+	* updated config.guess, config.sub, libtool, etc.
+	
+0.4.1
+	* MPEG-1 movie generation capabilities added.  Currently, all output
+	  files are saved as "out.mpg", due to an obscure gtk? bug.
+	* added the ability to do horiz. and vert. leveling with the mouse
+	* added an ascii file format for the raw data file input function
+	* added a new menu item, so that users can specify the import method
+	* added the ability to load in studies from the command line
+	* you can now compile and run amide as a library, exported functions
+	  are in amide_export.h
+	* add a creation date to the study data structure
+	* add 'scan_date to the volume structure
+
+0.4.0
+	* moved the functionality in the right column to a toolbar on top
+	* fixed some dumb errors with the mouse-depth change
+	* couple small documentation updates
+	* more sensible initial classification function for rendering
+	* the density and gradient classification functions now work correctly
+	  for multiple volumes
+	* fixed stupid bug in rendering_context_free()
+	* rendering parameters dialog changes now make more sense
+	* did a first-draft of user documentation for rendering 
+	
+0.3.5
+	* added Hot Blue/Hot Green colormaps
+	* changed study tree from GtkCTree to GtkTree
+	* context sensitive help window working better
+	* add/edit/delete buttons removed from main panel
+	* when moving an ROI, the view_center is now linked to the center of the ROI
+	* disabled bug-reporting, as I only read the sourceforge bug reports
+	
+0.3.4
+	* corrected stupid roi-zooming error, although roi-zooming still not correct
+	* added a little display to indicate the current coordinates
+	* added a continously running help window to indicate what the different
+	  mouse buttons indicate at any given time.
+	* corrected activating an object without selecting it (now not possible)
+
+0.3.3
+	* added "targets" onto the canvases
+	* can now change thickness by click-n-dragging on canvases
+	* fixed rotating of roi's by mouse-click-n-dragging.  Zooming still doesn't work right
+	* mouse cursors now work correctly
+	* fixed fatal errors in loading in many types of raw data 
+	        (unsigned shorts, unsigned ints, etc.)
+	* fixed a fatal error in referencing a free'd ui_threshold structure
+	* blank images are now background color, not black
+	* the currently active object is now noted in the study tree
+	* code cleanups
+	
+0.3.2	2001.06.11
+	* big endian compile fix
+	* additional viewing parameters saved in amide study files
+
+0.3.1
+	* multiple fixes with viewing series of images
+	* multiple fixes with calculating roi statistics
+
+0.3.0
+	* added study parameter modification dialog
+	* accelerated nearest neighbhor reslicing by a factor of 5
+	* massive bug hunt
+
+0.2.4
+	* added loading/saving support in an XML file format
+
+0.2.3
+	* added volume rendering support
+	* numerous bug fixes
+
+
+
+0.1 2001.01.03
+	* first released version
+

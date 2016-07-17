@@ -1,0 +1,5 @@
+mpeg_encode.o: mpeg_encode.c /usr/include/stdc-predef.h ../amide_config.h
+
+/usr/include/stdc-predef.h:
+
+../amide_config.h:

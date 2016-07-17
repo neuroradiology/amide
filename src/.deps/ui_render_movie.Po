@@ -1,0 +1,6 @@
+ui_render_movie.o: ui_render_movie.c /usr/include/stdc-predef.h \
+ ../amide_config.h
+
+/usr/include/stdc-predef.h:
+
+../amide_config.h:

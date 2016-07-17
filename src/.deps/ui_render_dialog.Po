@@ -1,0 +1,6 @@
+ui_render_dialog.o: ui_render_dialog.c /usr/include/stdc-predef.h \
+ ../amide_config.h
+
+/usr/include/stdc-predef.h:
+
+../amide_config.h:
